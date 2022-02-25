@@ -17,6 +17,7 @@ var (
 	LogOutput  *reopen.FileWriter
 	ExecDir    = ""
 	Env        = getEnvOrDefault("ENV", "dev")
+	FilePath   = getEnvOrDefault("PROGNOS_FILE_PATH", "/tmp/prognos_data")
 )
 
 func init() {
