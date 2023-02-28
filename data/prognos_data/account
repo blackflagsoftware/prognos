@@ -1,0 +1,9 @@
+[
+  {
+    "Id": 1,
+    "AccountName": "TestAccount",
+    "OwnerName": "BFS",
+    "DateFormat": "yyyy-mm-dd",
+    "ReverseSign": false
+  }
+]
