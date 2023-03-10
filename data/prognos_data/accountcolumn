@@ -1,0 +1,20 @@
+[
+  {
+    "Id": 1,
+    "AccountId": 1,
+    "Position": 2,
+    "ColumnName": "Amount"
+  },
+  {
+    "Id": 2,
+    "AccountId": 1,
+    "Position": 1,
+    "ColumnName": "TxnDate"
+  },
+  {
+    "Id": 3,
+    "AccountId": 1,
+    "Position": 4,
+    "ColumnName": "Description"
+  }
+]

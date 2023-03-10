@@ -2,8 +2,8 @@ package records
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
+	"os"
+	"text/tabwriter"
 
 	a "github.com/blackflagsoftware/prognos/internal/entities/account"
 	"github.com/blackflagsoftware/prognos/internal/util"
@@ -11,22 +11,17 @@ import (
 
 func AccountMenu() {
 	for {
-		fmt.Println("** Account Record Menu **")
-		fmt.Println("")
-		fmt.Println("Options:")
-		fmt.Println("(c) Create")
-		fmt.Println("(r) Read")
-		fmt.Println("(u) Update")
-		fmt.Println("(d) Delete")
-		fmt.Println("(l) List")
-		fmt.Println("(e) Exit")
-		fmt.Println("")
-		fmt.Print("Your choice: ")
-		selection := util.ParseInput()
-		if strings.ToLower(selection) == "e" {
+		util.ClearScreen()
+		messages := []string{"** Accounts **", "Please select your function"}
+		prompts := []string{"(c) Create", "(r) Read", "(u) Update", "(d) Delete", "(l) List"}
+		acceptablePrompts := []string{"c", "r", "u", "d", "l"}
+		exitString := "e"
+		selection := util.BasicPrompt(messages, prompts, acceptablePrompts, exitString)
+
+		if selection == "e" {
 			break
 		}
-		switch strings.ToLower(selection) {
+		switch selection {
 		case "c":
 			createAccount()
 		case "r":
@@ -37,56 +32,39 @@ func AccountMenu() {
 			deleteAccount()
 		case "l":
 			listAccount()
-		default:
-			fmt.Println("Not a valid entry, press 'enter' to continue")
-			util.ParseInput()
 		}
 	}
 }
 
 func createAccount() {
+	account := a.Account{}
 	for {
-		account := a.Account{}
-		fmt.Println("** Account Create **")
+		util.ClearScreen()
+		fmt.Println("** Account - Create **")
+		fmt.Println("* - Required")
 		fmt.Println("")
-		fmt.Print("Account Name: ")
-		account.AccountName = util.ParseInput()
-		fmt.Print("Owner Name: ")
-		account.OwnerName = util.ParseInput()
-		fmt.Print("Date Format: ")
-		account.DateFormat = util.ParseInput()
-		fmt.Print("Reverse Sign: ")
-		revSign := strings.ToLower(util.ParseInput())
-		if revSign == "true" || revSign == "t" || revSign == "y" || revSign == "yes" {
-			account.ReverseSign = true
+		account.AccountName = util.ParseInputWithMessage("Account Name*: ")
+		account.OwnerName = util.ParseInputWithMessage("Owner Name*: ")
+		account.DateFormat = util.ParseInputWithMessage("Date Format*: ")
+		account.ReverseSign = util.ParseInputBoolWithMessage("Reverse Sign*: ")
+		err := a.Create(account)
+		if err != nil {
+			fmt.Printf("Account was not added: %s\n", err)
+			fmt.Print("Press 'enter' to continue")
+			util.ParseInput()
+			continue
 		}
-		if err := a.DataCreate(account); err != nil {
-			fmt.Println("Unable to create Account:", err)
-		}
-		fmt.Print("Add another? ")
-		selection := strings.ToLower(util.ParseInput())
-		if selection == "n" || selection == "no" {
+		if !util.AskYesOrNo("Add another account") {
 			break
 		}
 	}
 }
 
 func readAccount() {
+	account := &a.Account{}
 	for {
-		fmt.Println("** Account Read **")
-		account := a.Account{}
-		fmt.Print("Enter Account Id: ")
-		selection := util.ParseInput()
-		selectionInt, err := strconv.Atoi(selection)
-		if err != nil {
-			fmt.Println("Not a number")
-			continue
-		}
-		account.Id = selectionInt
-		if err := a.DataRead(&account); err != nil {
-			fmt.Println("Unable to record:", err)
-			continue
-		}
+		util.ClearScreen()
+		getAccount(account)
 		addlText := ""
 		if account.Id == 0 {
 			addlText = "Record not found"
@@ -94,127 +72,92 @@ func readAccount() {
 		fmt.Printf("Account Details: %s\n", addlText)
 		fmt.Println("")
 		if account.Id != 0 {
-			fmt.Printf("Id: ")
-			fmt.Println(account.Id)
-			fmt.Printf("Account Name: ")
-			fmt.Println(account.AccountName)
-			fmt.Printf("Owner Name: ")
-			fmt.Println(account.OwnerName)
-			fmt.Printf("Date Format: ")
-			fmt.Println(account.DateFormat)
-			fmt.Printf("Reverse Sign: ")
-			fmt.Println(account.ReverseSign)
+			writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
+			fmt.Fprintln(writer, "Id\tAccountName\tOwnerName\tDateFormat\tReverseSign")
+			fmt.Fprintln(writer, "----\t---------\t--------\t--------\t--------")
+			fmt.Fprintf(writer, "%d\t%s\t%s\t%s\t%t\n", account.Id, account.AccountName, account.OwnerName, account.DateFormat, account.ReverseSign)
+			writer.Flush()
 		}
 		fmt.Println("")
-		fmt.Print("Read another? ")
-		selection = strings.ToLower(util.ParseInput())
-		if selection == "n" || selection == "no" {
+		if !util.AskYesOrNo("Read another account") {
 			break
 		}
 	}
 }
 
 func updateAccount() {
+	origAccount := &a.Account{}
+	newAccount := a.Account{}
 	for {
-		fmt.Println("** Account Update **")
-		account := a.Account{}
-		fmt.Print("Enter Account Id: ")
-		selection := util.ParseInput()
-		selectionInt, err := strconv.Atoi(selection)
-		if err != nil {
-			fmt.Println("Not a number")
-			continue
-		}
-		account.Id = selectionInt
-		if err := a.DataRead(&account); err != nil {
-			fmt.Println("Unable to record:", err)
-			continue
-		}
+		util.ClearScreen()
+		fmt.Println("** Account - Update **")
+		fmt.Println("Saved value in [], press enter to keep")
+		fmt.Println("* - Required")
 		fmt.Println("")
-		fmt.Printf("Account Name [%s]: ", account.AccountName)
-		accountName := util.ParseInput()
-		if accountName != "" && accountName != account.AccountName {
-			account.AccountName = accountName
+		getAccount(origAccount)
+		newAccount.Id = origAccount.Id
+		newAccount.AccountName = util.ParseInputStringWithMessageCompare(fmt.Sprintf("Account Name [%s]*: ", origAccount.AccountName), origAccount.AccountName)
+		newAccount.OwnerName = util.ParseInputStringWithMessageCompare(fmt.Sprintf("Owner Name [%s]*: ", origAccount.OwnerName), origAccount.OwnerName)
+		newAccount.DateFormat = util.ParseInputStringWithMessageCompare(fmt.Sprintf("Date Format [%s]*: ", origAccount.DateFormat), origAccount.DateFormat)
+		newAccount.ReverseSign = util.ParseInputBoolWithMessageCompare(fmt.Sprintf("Reverse Sign[%t]*: ", origAccount.ReverseSign), origAccount.ReverseSign)
+		err := a.Update(newAccount)
+		if err != nil {
+			fmt.Printf("Account was not updated: %s\n", err)
+			fmt.Print("Press 'enter' to continue")
+			util.ParseInput()
+			continue
 		}
-		fmt.Printf("Owner Name [%s]: ", account.OwnerName)
-		ownerName := util.ParseInput()
-		if ownerName != "" && ownerName != account.OwnerName {
-			account.OwnerName = ownerName
-		}
-		fmt.Printf("Date Format [%s]: ", account.DateFormat)
-		dateFormat := util.ParseInput()
-		if dateFormat != "" && dateFormat != account.DateFormat {
-			account.DateFormat = dateFormat
-		}
-		fmt.Printf("Reverse Sign [%t]: ", account.ReverseSign)
-		revSign := strings.ToLower(util.ParseInput())
-		var reverseSign bool
-		if revSign != "" {
-			if revSign == "true" || revSign == "y" || revSign == "yes" {
-				reverseSign = true
-			}
-			if reverseSign != account.ReverseSign {
-				account.ReverseSign = reverseSign
-			}
-		}
-		if err := a.DataUpdate(account); err != nil {
-			fmt.Println("Unable to update Account:", err)
-		}
-		fmt.Print("Update another? ")
-		selection = strings.ToLower(util.ParseInput())
-		if selection == "n" || selection == "no" {
+		if !util.AskYesOrNo("Update another account") {
 			break
 		}
 	}
 }
 
 func deleteAccount() {
+	account := a.Account{}
 	for {
-		fmt.Println("** Account Delete **")
-		account := a.Account{}
-		fmt.Print("Enter Account Id: ")
-		selection := util.ParseInput()
-		selectionInt, err := strconv.Atoi(selection)
+		util.ClearScreen()
+		account.Id = util.ParseInputIntWithMessage("Enter Account Id to delete: ")
+		err := a.Delete(account)
 		if err != nil {
-			fmt.Println("Not a number")
+			fmt.Printf("Account was not deleted: %s\n", err)
+			fmt.Print("Press 'enter' to continue")
+			util.ParseInput()
 			continue
 		}
-		account.Id = selectionInt
-		if err := a.DataDelete(account); err != nil {
-			fmt.Println("Unable to delete account:", err)
-			continue
-		}
-		fmt.Print("Delete another? ")
-		selection = strings.ToLower(util.ParseInput())
-		if selection == "n" || selection == "no" {
+		if !util.AskYesOrNo("Delete another account") {
 			break
 		}
 	}
 }
 
 func listAccount() {
-	fmt.Println("** Account List **")
-	accounts := []a.Account{}
-	if err := a.DataList(&accounts); err != nil {
-		fmt.Println("Unable to get records:", err)
-		return
-	}
-	for _, account := range accounts {
-		fmt.Println("")
-		if account.Id != 0 {
-			fmt.Printf("Id: ")
-			fmt.Println(account.Id)
-			fmt.Printf("Account Name: ")
-			fmt.Println(account.AccountName)
-			fmt.Printf("Owner Name: ")
-			fmt.Println(account.OwnerName)
-			fmt.Printf("Date Format: ")
-			fmt.Println(account.DateFormat)
-			fmt.Printf("Reverse Sign: ")
-			fmt.Println(account.ReverseSign)
-		}
-	}
+	accounts := &[]a.Account{}
+	a.List(accounts)
+	fmt.Println("Accounts - List")
 	fmt.Println("")
-	fmt.Print("Press 'enter to continue")
+	writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
+	fmt.Fprintln(writer, "Id\tAccountName\tOwnerName\tDateFormat\tReverseSign")
+	fmt.Fprintln(writer, "----\t---------\t--------\t--------\t--------")
+	for _, account := range *accounts {
+		fmt.Fprintf(writer, "%d\t%s\t%s\t%s\t%t\n", account.Id, account.AccountName, account.OwnerName, account.DateFormat, account.ReverseSign)
+	}
+	writer.Flush()
+	fmt.Println("")
+	fmt.Print("Press 'enter' to continue ")
 	util.ParseInput()
+}
+
+func getAccount(account *a.Account) {
+	for {
+		account.Id = util.ParseInputIntWithMessage("Enter Account Id: ")
+		err := a.Read(account)
+		if err != nil {
+			fmt.Printf("Account was not added: %s\n", err)
+			fmt.Print("Press 'enter' to continue")
+			util.ParseInput()
+			continue
+		}
+		break
+	}
 }

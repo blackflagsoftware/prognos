@@ -1,0 +1,14 @@
+[
+  {
+    "Id": 1,
+    "CategoryName": "Home"
+  },
+  {
+    "Id": 2,
+    "CategoryName": "Auto"
+  },
+  {
+    "Id": 3,
+    "CategoryName": "Groceries"
+  }
+]

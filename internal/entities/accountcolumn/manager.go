@@ -9,16 +9,23 @@ func Read(acc *AccountColumn) error {
 	return DataRead(acc)
 }
 
-// func List(acc *[]AccountColumn) error {
-// 	return DataList(acc)
-// }
+func List(acc *[]AccountColumn, accountId int) error {
+	return DataList(acc, accountId)
+}
 
 func Create(acc AccountColumn) error {
 	if acc.AccountId < 1 {
 		return fmt.Errorf("Invalid AccountId")
 	}
-	if acc.ColumnId < 1 {
-		return fmt.Errorf("Invalid ColumnId")
+	if acc.ColumnName == "" {
+		return fmt.Errorf("Empty ColumnName")
+	}
+	if acc.ColumnName != "TxnDate" {
+		if acc.ColumnName != "Amount" {
+			if acc.ColumnName != "Description" {
+				return fmt.Errorf("Invalid ColumnName, valid options [TxnDate | Amount | Description]")
+			}
+		}
 	}
 	if acc.Position < 1 {
 		return fmt.Errorf("Invalid PositionId")
@@ -30,8 +37,15 @@ func Update(acc AccountColumn) error {
 	if acc.AccountId < 1 {
 		return fmt.Errorf("Invalid AccountId")
 	}
-	if acc.ColumnId < 1 {
-		return fmt.Errorf("Invalid ColumnId")
+	if acc.ColumnName == "" {
+		return fmt.Errorf("Empty ColumnName")
+	}
+	if acc.ColumnName != "TxnDate" {
+		if acc.ColumnName != "Amount" {
+			if acc.ColumnName != "Description" {
+				return fmt.Errorf("Invalid ColumnName, valid options [TxnDate | Amount | Description]")
+			}
+		}
 	}
 	if acc.Position < 1 {
 		return fmt.Errorf("Invalid PositionId")

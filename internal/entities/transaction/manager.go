@@ -39,3 +39,7 @@ func Delete(tra Transaction) error {
 	}
 	return DataDelete(tra)
 }
+
+func DeleteAll() error {
+	return DataDeleteAll()
+}

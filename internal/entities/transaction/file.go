@@ -73,3 +73,12 @@ func DataDelete(tra Transaction) error {
 	}
 	return util.SaveFile("transaction", tras)
 }
+
+func DataDeleteAll() error {
+	tras := []Transaction{}
+	if err := util.OpenFile("transaction", &tras); err != nil {
+		return err
+	}
+	tras = []Transaction{}
+	return util.SaveFile("transaction", tras)
+}

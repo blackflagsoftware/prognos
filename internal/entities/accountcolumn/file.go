@@ -1,6 +1,8 @@
 package accountcolumn
 
 import (
+	"sort"
+
 	"github.com/blackflagsoftware/prognos/internal/util"
 )
 
@@ -16,7 +18,7 @@ func DataRead(col *AccountColumn) error {
 	for _, colObj := range accs {
 		if colObj.Id == col.Id {
 			col.AccountId = colObj.AccountId
-			col.ColumnId = colObj.ColumnId
+			col.ColumnName = colObj.ColumnName
 			col.Position = colObj.Position
 			break
 		}
@@ -24,9 +26,21 @@ func DataRead(col *AccountColumn) error {
 	return nil
 }
 
-// func DataList(col *[]AccountColumn) error {
-// 	return util.OpenFile("accountcolumn", col)
-// }
+func DataList(col *[]AccountColumn, accountId int) error {
+	colAll := &[]AccountColumn{}
+	if err := util.OpenFile("accountcolumn", colAll); err != nil {
+		return err
+	}
+	for _, c := range *colAll {
+		if c.AccountId == accountId {
+			*col = append(*col, c)
+		}
+	}
+	sort.Slice(*col, func(i, j int) bool {
+		return (*col)[i].Position < (*col)[j].Position
+	})
+	return nil
+}
 
 func DataCreate(col AccountColumn) error {
 	accs := []AccountColumn{}
