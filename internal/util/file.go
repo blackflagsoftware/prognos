@@ -29,7 +29,6 @@ func OpenFile(name string, obj interface{}) error {
 		defaultObject = "[]"
 	}
 	filePathWithName := fmt.Sprintf("%s/%s", config.FilePath, name)
-	fmt.Println(defaultObject)
 	createFile(filePathWithName, defaultObject)
 	content, err := os.ReadFile(filePathWithName)
 	if err != nil {
@@ -43,7 +42,7 @@ func OpenFile(name string, obj interface{}) error {
 
 func SaveFile(name string, obj interface{}) error {
 	defaultObject := "{}"
-	rf := reflect.ValueOf(obj)
+	rf := reflect.ValueOf(&obj)
 	if rf.Elem().Kind() == reflect.Slice {
 		defaultObject = "[]"
 	}
