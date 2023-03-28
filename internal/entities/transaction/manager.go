@@ -17,9 +17,9 @@ func Create(tra Transaction) error {
 	if tra.AccountId < 1 {
 		return fmt.Errorf("Invalid AccountId")
 	}
-	if tra.CategoryId < 1 {
-		return fmt.Errorf("Invalid CategoryId")
-	}
+	// if tra.CategoryId < 1 {
+	// 	return fmt.Errorf("Invalid CategoryId")
+	// }
 	return DataCreate(tra)
 }
 

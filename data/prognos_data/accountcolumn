@@ -2,19 +2,19 @@
   {
     "Id": 1,
     "AccountId": 1,
-    "Position": 2,
-    "ColumnName": "Amount"
+    "Position": 1,
+    "ColumnName": "Transaction Date"
   },
   {
     "Id": 2,
     "AccountId": 1,
-    "Position": 1,
-    "ColumnName": "TxnDate"
+    "Position": 5,
+    "ColumnName": "Amount"
   },
   {
     "Id": 3,
     "AccountId": 1,
-    "Position": 4,
+    "Position": 2,
     "ColumnName": "Description"
   }
 ]

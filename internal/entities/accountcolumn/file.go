@@ -6,9 +6,10 @@ import (
 	"github.com/blackflagsoftware/prognos/internal/util"
 )
 
+// TODO: some of my file "names" were incorrect, how would you solve them?
 func DataRead(col *AccountColumn) error {
 	accs := []AccountColumn{}
-	if err := util.OpenFile("AccountColumn", &accs); err != nil {
+	if err := util.OpenFile("accountColumn", &accs); err != nil {
 		return err
 	}
 	if len(accs) == 0 {
@@ -60,7 +61,7 @@ func DataCreate(col AccountColumn) error {
 
 func DataUpdate(col AccountColumn) error {
 	accs := []AccountColumn{}
-	if err := util.OpenFile("account", &accs); err != nil {
+	if err := util.OpenFile("accountcolumn", &accs); err != nil {
 		return err
 	}
 	for i, colObj := range accs {
@@ -74,7 +75,7 @@ func DataUpdate(col AccountColumn) error {
 
 func DataDelete(col AccountColumn) error {
 	accs := []AccountColumn{}
-	if err := util.OpenFile("account", &accs); err != nil {
+	if err := util.OpenFile("accountcolumn", &accs); err != nil {
 		return err
 	}
 	for i, colObj := range accs {
@@ -83,5 +84,5 @@ func DataDelete(col AccountColumn) error {
 			break
 		}
 	}
-	return util.SaveFile("account", accs)
+	return util.SaveFile("accountcolumn", accs)
 }

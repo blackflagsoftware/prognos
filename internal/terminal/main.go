@@ -2,6 +2,7 @@ package terminal
 
 import (
 	rec "github.com/blackflagsoftware/prognos/internal/terminal/records"
+	tra "github.com/blackflagsoftware/prognos/internal/terminal/transactions"
 	"github.com/blackflagsoftware/prognos/internal/util"
 )
 
@@ -9,8 +10,8 @@ func MainMenu() {
 	for {
 		util.ClearScreen()
 		messages := []string{"** Main Menu **", "Please choose a function"}
-		prompts := []string{"(r) Records"}
-		acceptablePrompts := []string{"r"}
+		prompts := []string{"(r) Records", "(t) Transactions"}
+		acceptablePrompts := []string{"r", "t"}
 		exitString := "e"
 		selection := util.BasicPrompt(messages, prompts, acceptablePrompts, exitString)
 		if selection == "e" {
@@ -19,6 +20,8 @@ func MainMenu() {
 		switch selection {
 		case "r":
 			RecordsMenu()
+		case "t":
+			TransactionMenu()
 		}
 	}
 }
@@ -44,6 +47,25 @@ func RecordsMenu() {
 			rec.AccountColumnMenu()
 		case "c":
 			rec.CategoryMenu()
+		}
+	}
+}
+
+func TransactionMenu() {
+	for {
+		util.ClearScreen()
+		messages := []string{"** Transactions **", "Please make a selection"}
+		prompts := []string{"(l) Load"}
+		acceptablePrompts := []string{"l"}
+		exitString := "e"
+		selection := util.BasicPrompt(messages, prompts, acceptablePrompts, exitString)
+
+		if selection == "e" {
+			break
+		}
+		switch selection {
+		case "l":
+			tra.TransactionsLoad()
 		}
 	}
 }
