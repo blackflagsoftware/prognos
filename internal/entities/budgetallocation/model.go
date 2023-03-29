@@ -6,3 +6,5 @@ type (
 		Amount     float64
 	}
 )
+
+const BUDGETALLOCATION = "budgetallocation"

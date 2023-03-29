@@ -7,3 +7,5 @@ type (
 		DateLoaded string `json:"date_loaded"`
 	}
 )
+
+const ACCOUNTTRANSACTION = "accounttransaction"

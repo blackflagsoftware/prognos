@@ -47,6 +47,9 @@ func createAccount() {
 		account.OwnerName = util.ParseInputWithMessage("Owner Name*: ")
 		account.DateFormat = util.ParseInputWithMessage("Date Format*: ")
 		account.ReverseSign = util.ParseInputBoolWithMessage("Reverse Sign*: ")
+		account.SkipHeader = util.ParseInputBoolWithMessage("Skip Header: ")
+		account.LineSep = util.ParseInputWithMessage("Line Seprator (default '\\n'): ")
+		account.ElementSep = util.ParseInputWithMessage("Element Seprator (default ','): ")
 		err := a.Create(account)
 		if err != nil {
 			fmt.Printf("Account was not added: %s\n", err)
@@ -73,9 +76,9 @@ func readAccount() {
 		fmt.Println("")
 		if account.Id != 0 {
 			writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
-			fmt.Fprintln(writer, "Id\tAccountName\tOwnerName\tDateFormat\tReverseSign")
-			fmt.Fprintln(writer, "----\t---------\t--------\t--------\t--------")
-			fmt.Fprintf(writer, "%d\t%s\t%s\t%s\t%t\n", account.Id, account.AccountName, account.OwnerName, account.DateFormat, account.ReverseSign)
+			fmt.Fprintln(writer, "Id\tAccountName\tOwnerName\tDateFormat\tReverseSign\tSkipHeader\tLineSeparator\tElementSeparator")
+			fmt.Fprintln(writer, "----\t---------\t--------\t--------\t--------\t----------\t--------------\t----------------")
+			fmt.Fprintf(writer, "%d\t%s\t%s\t%s\t%t\t%t\t%s\t%s\n", account.Id, account.AccountName, account.OwnerName, account.DateFormat, account.ReverseSign, account.SkipHeader, account.LineSep, account.ElementSep)
 			writer.Flush()
 		}
 		fmt.Println("")
@@ -100,6 +103,9 @@ func updateAccount() {
 		newAccount.OwnerName = util.ParseInputStringWithMessageCompare(fmt.Sprintf("Owner Name [%s]*: ", origAccount.OwnerName), origAccount.OwnerName)
 		newAccount.DateFormat = util.ParseInputStringWithMessageCompare(fmt.Sprintf("Date Format [%s]*: ", origAccount.DateFormat), origAccount.DateFormat)
 		newAccount.ReverseSign = util.ParseInputBoolWithMessageCompare(fmt.Sprintf("Reverse Sign[%t]*: ", origAccount.ReverseSign), origAccount.ReverseSign)
+		newAccount.SkipHeader = util.ParseInputBoolWithMessageCompare(fmt.Sprintf("Skip Header[%t]*: ", origAccount.SkipHeader), origAccount.SkipHeader)
+		newAccount.LineSep = util.ParseInputStringWithMessageCompare(fmt.Sprintf("Line Separator[%s]: ", origAccount.LineSep), string(origAccount.LineSep))
+		newAccount.ElementSep = util.ParseInputStringWithMessageCompare(fmt.Sprintf("Element Separator[%s]: ", origAccount.ElementSep), string(origAccount.ElementSep))
 		err := a.Update(newAccount)
 		if err != nil {
 			fmt.Printf("Account was not updated: %s\n", err)
@@ -137,10 +143,10 @@ func listAccount() {
 	fmt.Println("Accounts - List")
 	fmt.Println("")
 	writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
-	fmt.Fprintln(writer, "Id\tAccountName\tOwnerName\tDateFormat\tReverseSign")
-	fmt.Fprintln(writer, "----\t---------\t--------\t--------\t--------")
+	fmt.Fprintln(writer, "Id\tAccountName\tOwnerName\tDateFormat\tReverseSign\tSkipHeader\tLineSeparator\tElementSeparator")
+	fmt.Fprintln(writer, "----\t---------\t--------\t--------\t--------\t----------\t--------------\t----------------")
 	for _, account := range *accounts {
-		fmt.Fprintf(writer, "%d\t%s\t%s\t%s\t%t\n", account.Id, account.AccountName, account.OwnerName, account.DateFormat, account.ReverseSign)
+		fmt.Fprintf(writer, "%d\t%s\t%s\t%s\t%t\t%t\t%s\t%s\n", account.Id, account.AccountName, account.OwnerName, account.DateFormat, account.ReverseSign, account.SkipHeader, account.LineSep, account.ElementSep)
 	}
 	writer.Flush()
 	fmt.Println("")

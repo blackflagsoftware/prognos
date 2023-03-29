@@ -1,6 +1,9 @@
 package account
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func Read(acc *Account) error {
 	if acc.Id < 1 {
@@ -45,4 +48,11 @@ func Delete(acc Account) error {
 		return fmt.Errorf("Invalid Id")
 	}
 	return DataDelete(acc)
+}
+
+func (a Account) TransformDateFormat() string {
+	goFormat := strings.Replace(a.DateFormat, "yyyy", "2006", 1)
+	goFormat = strings.Replace(goFormat, "mm", "01", 1)
+	goFormat = strings.Replace(goFormat, "dd", "02", 1)
+	return goFormat
 }

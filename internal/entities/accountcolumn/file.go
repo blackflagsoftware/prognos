@@ -6,10 +6,9 @@ import (
 	"github.com/blackflagsoftware/prognos/internal/util"
 )
 
-// TODO: some of my file "names" were incorrect, how would you solve them?
 func DataRead(col *AccountColumn) error {
 	accs := []AccountColumn{}
-	if err := util.OpenFile("accountColumn", &accs); err != nil {
+	if err := util.OpenFile(ACCOUNTCOLUMN, &accs); err != nil {
 		return err
 	}
 	if len(accs) == 0 {
@@ -29,7 +28,7 @@ func DataRead(col *AccountColumn) error {
 
 func DataList(col *[]AccountColumn, accountId int) error {
 	colAll := &[]AccountColumn{}
-	if err := util.OpenFile("accountcolumn", colAll); err != nil {
+	if err := util.OpenFile(ACCOUNTCOLUMN, colAll); err != nil {
 		return err
 	}
 	for _, c := range *colAll {
@@ -45,7 +44,7 @@ func DataList(col *[]AccountColumn, accountId int) error {
 
 func DataCreate(col AccountColumn) error {
 	accs := []AccountColumn{}
-	if err := util.OpenFile("accountcolumn", &accs); err != nil {
+	if err := util.OpenFile(ACCOUNTCOLUMN, &accs); err != nil {
 		return err
 	}
 	maxId := 0
@@ -56,12 +55,12 @@ func DataCreate(col AccountColumn) error {
 	}
 	col.Id = maxId + 1
 	accs = append(accs, col)
-	return util.SaveFile("accountcolumn", accs)
+	return util.SaveFile(ACCOUNTCOLUMN, accs)
 }
 
 func DataUpdate(col AccountColumn) error {
 	accs := []AccountColumn{}
-	if err := util.OpenFile("accountcolumn", &accs); err != nil {
+	if err := util.OpenFile(ACCOUNTCOLUMN, &accs); err != nil {
 		return err
 	}
 	for i, colObj := range accs {
@@ -70,12 +69,12 @@ func DataUpdate(col AccountColumn) error {
 			break
 		}
 	}
-	return util.SaveFile("accountcolumn", accs)
+	return util.SaveFile(ACCOUNTCOLUMN, accs)
 }
 
 func DataDelete(col AccountColumn) error {
 	accs := []AccountColumn{}
-	if err := util.OpenFile("accountcolumn", &accs); err != nil {
+	if err := util.OpenFile(ACCOUNTCOLUMN, &accs); err != nil {
 		return err
 	}
 	for i, colObj := range accs {
@@ -84,5 +83,18 @@ func DataDelete(col AccountColumn) error {
 			break
 		}
 	}
-	return util.SaveFile("accountcolumn", accs)
+	return util.SaveFile(ACCOUNTCOLUMN, accs)
+}
+
+func DataColumnIdxByName(accountId int, columnName string) int {
+	cols := []AccountColumn{}
+	if err := DataList(&cols, accountId); err != nil {
+		return -1
+	}
+	for _, c := range cols {
+		if c.ColumnName == columnName {
+			return c.Position - 1
+		}
+	}
+	return -1
 }

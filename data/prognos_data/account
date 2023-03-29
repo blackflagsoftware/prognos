@@ -4,13 +4,19 @@
     "AccountName": "AMEX",
     "OwnerName": "BFS",
     "DateFormat": "mm/dd/yyyy",
-    "ReverseSign": false
+    "ReverseSign": false,
+    "SkipHeader": true,
+    "LineSep": "\\n",
+    "ElementSep": ","
   },
   {
     "Id": 2,
     "AccountName": "New",
     "OwnerName": "Owner",
     "DateFormat": "mm/dd/yyyy",
-    "ReverseSign": false
+    "ReverseSign": false,
+    "SkipHeader": false,
+    "LineSep": "",
+    "ElementSep": ""
   }
 ]

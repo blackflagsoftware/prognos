@@ -6,7 +6,7 @@ import (
 
 func DataRead(acc *Account) error {
 	accs := []Account{}
-	if err := util.OpenFile("account", &accs); err != nil {
+	if err := util.OpenFile(ACCOUNT, &accs); err != nil {
 		return err
 	}
 	if len(accs) == 0 {
@@ -19,6 +19,9 @@ func DataRead(acc *Account) error {
 			acc.OwnerName = accObj.OwnerName
 			acc.DateFormat = accObj.DateFormat
 			acc.ReverseSign = accObj.ReverseSign
+			acc.SkipHeader = accObj.SkipHeader
+			acc.LineSep = accObj.LineSep
+			acc.ElementSep = accObj.ElementSep
 			break
 		}
 	}
@@ -26,12 +29,12 @@ func DataRead(acc *Account) error {
 }
 
 func DataList(acc *[]Account) error {
-	return util.OpenFile("account", acc)
+	return util.OpenFile(ACCOUNT, acc)
 }
 
 func DataCreate(acc Account) error {
 	accs := []Account{}
-	if err := util.OpenFile("account", &accs); err != nil {
+	if err := util.OpenFile(ACCOUNT, &accs); err != nil {
 		return err
 	}
 	maxId := 0
@@ -40,28 +43,40 @@ func DataCreate(acc Account) error {
 			maxId = accObj.Id
 		}
 	}
+	if len(acc.LineSep) == 0 {
+		acc.LineSep = "\n"
+	}
+	if len(acc.ElementSep) == 0 {
+		acc.ElementSep = ","
+	}
 	acc.Id = maxId + 1
 	accs = append(accs, acc)
-	return util.SaveFile("account", accs)
+	return util.SaveFile(ACCOUNT, accs)
 }
 
 func DataUpdate(acc Account) error {
 	accs := []Account{}
-	if err := util.OpenFile("account", &accs); err != nil {
+	if err := util.OpenFile(ACCOUNT, &accs); err != nil {
 		return err
 	}
 	for i, accObj := range accs {
 		if accObj.Id == acc.Id {
+			if len(acc.LineSep) == 0 {
+				acc.LineSep = "\n"
+			}
+			if len(acc.ElementSep) == 0 {
+				acc.ElementSep = ","
+			}
 			accs[i] = acc
 			break
 		}
 	}
-	return util.SaveFile("account", accs)
+	return util.SaveFile(ACCOUNT, accs)
 }
 
 func DataDelete(acc Account) error {
 	accs := []Account{}
-	if err := util.OpenFile("account", &accs); err != nil {
+	if err := util.OpenFile(ACCOUNT, &accs); err != nil {
 		return err
 	}
 	for i, accObj := range accs {
@@ -70,5 +85,5 @@ func DataDelete(acc Account) error {
 			break
 		}
 	}
-	return util.SaveFile("account", accs)
+	return util.SaveFile(ACCOUNT, accs)
 }

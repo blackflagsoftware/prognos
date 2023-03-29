@@ -7,5 +7,10 @@ type (
 		OwnerName   string
 		DateFormat  string
 		ReverseSign bool
+		SkipHeader  bool
+		LineSep     string
+		ElementSep  string
 	}
 )
+
+const ACCOUNT = "account"

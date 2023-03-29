@@ -6,7 +6,7 @@ import (
 
 func DataRead(cat *Category) error {
 	cats := []Category{}
-	if err := util.OpenFile("category", &cats); err != nil {
+	if err := util.OpenFile(CATEGORY, &cats); err != nil {
 		return err
 	}
 	if len(cats) == 0 {
@@ -23,12 +23,12 @@ func DataRead(cat *Category) error {
 }
 
 func DataList(cat *[]Category) error {
-	return util.OpenFile("category", cat)
+	return util.OpenFile(CATEGORY, cat)
 }
 
 func DataCreate(cat Category) error {
 	cats := []Category{}
-	if err := util.OpenFile("category", &cats); err != nil {
+	if err := util.OpenFile(CATEGORY, &cats); err != nil {
 		return err
 	}
 	maxId := 0
@@ -39,12 +39,12 @@ func DataCreate(cat Category) error {
 	}
 	cat.Id = maxId + 1
 	cats = append(cats, cat)
-	return util.SaveFile("category", cats)
+	return util.SaveFile(CATEGORY, cats)
 }
 
 func DataUpdate(cat Category) error {
 	cats := []Category{}
-	if err := util.OpenFile("category", &cats); err != nil {
+	if err := util.OpenFile(CATEGORY, &cats); err != nil {
 		return err
 	}
 	for i, accObj := range cats {
@@ -53,12 +53,12 @@ func DataUpdate(cat Category) error {
 			break
 		}
 	}
-	return util.SaveFile("category", cats)
+	return util.SaveFile(CATEGORY, cats)
 }
 
 func DataDelete(cat Category) error {
 	cats := []Category{}
-	if err := util.OpenFile("category", &cats); err != nil {
+	if err := util.OpenFile(CATEGORY, &cats); err != nil {
 		return err
 	}
 	for i, accObj := range cats {
@@ -67,5 +67,5 @@ func DataDelete(cat Category) error {
 			break
 		}
 	}
-	return util.SaveFile("category", cats)
+	return util.SaveFile(CATEGORY, cats)
 }

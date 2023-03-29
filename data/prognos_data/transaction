@@ -3,12 +3,20 @@
     "id": 1,
     "accountId": 1,
     "categoryId": 0,
+    "txnDate": "0001-01-01T00:00:00Z",
+    "amount": 0,
+    "description": "Description"
+  },
+  {
+    "id": 2,
+    "accountId": 1,
+    "categoryId": 0,
     "txnDate": "2022-08-14T00:00:00Z",
     "amount": 53.7,
     "description": "THAI LAND RESTAURANT"
   },
   {
-    "id": 2,
+    "id": 3,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-12T00:00:00Z",
@@ -16,7 +24,7 @@
     "description": "MCDONALD'S F11945 00"
   },
   {
-    "id": 3,
+    "id": 4,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-11T00:00:00Z",
@@ -24,7 +32,7 @@
     "description": "7 ELEVEN 36335 93633"
   },
   {
-    "id": 4,
+    "id": 5,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-11T00:00:00Z",
@@ -32,7 +40,7 @@
     "description": "MY PATRIOT SUPPLY 65"
   },
   {
-    "id": 5,
+    "id": 6,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-10T00:00:00Z",
@@ -40,7 +48,7 @@
     "description": "NIELSEN S FROZEN CUS"
   },
   {
-    "id": 6,
+    "id": 7,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-09T00:00:00Z",
@@ -48,7 +56,7 @@
     "description": "AplPay TACO BELL 542"
   },
   {
-    "id": 7,
+    "id": 8,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-09T00:00:00Z",
@@ -56,7 +64,7 @@
     "description": "THE HOME DEPOT      "
   },
   {
-    "id": 8,
+    "id": 9,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-07T00:00:00Z",
@@ -64,7 +72,7 @@
     "description": "AUTOPAY PAYMENT - TH"
   },
   {
-    "id": 9,
+    "id": 10,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-06T00:00:00Z",
@@ -72,7 +80,7 @@
     "description": "ASTRO BURGER 6500000"
   },
   {
-    "id": 10,
+    "id": 11,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-05T00:00:00Z",
@@ -80,7 +88,7 @@
     "description": "2729 W 9000 S 125988"
   },
   {
-    "id": 11,
+    "id": 12,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-05T00:00:00Z",
@@ -88,7 +96,7 @@
     "description": "BURT BROTHERS 011 JO"
   },
   {
-    "id": 12,
+    "id": 13,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-05T00:00:00Z",
@@ -96,7 +104,7 @@
     "description": "VILLAGE BAKER INC 65"
   },
   {
-    "id": 13,
+    "id": 14,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-03T00:00:00Z",
@@ -104,7 +112,7 @@
     "description": "MARKET AT           "
   },
   {
-    "id": 14,
+    "id": 15,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-01T00:00:00Z",
@@ -112,7 +120,7 @@
     "description": "BT*OPERATION UNDERGR"
   },
   {
-    "id": 15,
+    "id": 16,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-01T00:00:00Z",
@@ -120,7 +128,7 @@
     "description": "GOOGLE*CLOUD TRZPWB "
   },
   {
-    "id": 16,
+    "id": 17,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-01T00:00:00Z",
@@ -128,7 +136,7 @@
     "description": "GOOGLE*GSUITE_BLACKF"
   },
   {
-    "id": 17,
+    "id": 18,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-01T00:00:00Z",
@@ -136,7 +144,7 @@
     "description": "WAL-MART SUPERCENTER"
   },
   {
-    "id": 18,
+    "id": 19,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-30T00:00:00Z",
@@ -144,7 +152,7 @@
     "description": "WAL-MART 2307 2307  "
   },
   {
-    "id": 19,
+    "id": 20,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-29T00:00:00Z",
@@ -152,7 +160,7 @@
     "description": "MARIAS MEXICAN GRILL"
   },
   {
-    "id": 20,
+    "id": 21,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-29T00:00:00Z",
@@ -160,7 +168,7 @@
     "description": "MENCHIE S FROYO MEN0"
   },
   {
-    "id": 21,
+    "id": 22,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-29T00:00:00Z",
@@ -168,7 +176,7 @@
     "description": "MULLIGANS           "
   },
   {
-    "id": 22,
+    "id": 23,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-26T00:00:00Z",
@@ -176,7 +184,7 @@
     "description": "SMITHS-FUEL #9138 Q7"
   },
   {
-    "id": 23,
+    "id": 24,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-25T00:00:00Z",
@@ -184,7 +192,7 @@
     "description": "BB DINER            "
   },
   {
-    "id": 24,
+    "id": 25,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-23T00:00:00Z",
@@ -192,7 +200,7 @@
     "description": "TACO BELL 033176    "
   },
   {
-    "id": 25,
+    "id": 26,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-22T00:00:00Z",
@@ -200,7 +208,7 @@
     "description": "SUBWAY              "
   },
   {
-    "id": 26,
+    "id": 27,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-21T00:00:00Z",
@@ -208,7 +216,7 @@
     "description": "ALASKAN INN AND SPA "
   },
   {
-    "id": 27,
+    "id": 28,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-20T00:00:00Z",
@@ -216,7 +224,7 @@
     "description": "MCDONALD'S F14285 00"
   },
   {
-    "id": 28,
+    "id": 29,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-20T00:00:00Z",
@@ -224,7 +232,7 @@
     "description": "WALGREENS           "
   },
   {
-    "id": 29,
+    "id": 30,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-16T00:00:00Z",
@@ -232,7 +240,7 @@
     "description": "117 RUMBI ISLAND GRI"
   },
   {
-    "id": 30,
+    "id": 31,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-16T00:00:00Z",
@@ -240,7 +248,7 @@
     "description": "DOMINO'S 7517 000007"
   },
   {
-    "id": 31,
+    "id": 32,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-15T00:00:00Z",
@@ -248,7 +256,7 @@
     "description": "CHICK-FIL-A #02833 0"
   },
   {
-    "id": 32,
+    "id": 33,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-15T00:00:00Z",
@@ -256,7 +264,7 @@
     "description": "CRUMBL              "
   },
   {
-    "id": 33,
+    "id": 34,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-15T00:00:00Z",
@@ -264,7 +272,7 @@
     "description": "STEAMPOWERED.COM    "
   },
   {
-    "id": 34,
+    "id": 35,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-14T00:00:00Z",
@@ -272,7 +280,7 @@
     "description": "ARBY'S              "
   },
   {
-    "id": 35,
+    "id": 36,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-07-14T00:00:00Z",

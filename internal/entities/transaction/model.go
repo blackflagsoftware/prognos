@@ -12,3 +12,5 @@ type (
 		Description string    `json:"description"`
 	}
 )
+
+const TRANSACTION = "transaction"

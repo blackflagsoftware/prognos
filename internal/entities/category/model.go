@@ -6,3 +6,5 @@ type (
 		CategoryName string
 	}
 )
+
+const CATEGORY = "category"

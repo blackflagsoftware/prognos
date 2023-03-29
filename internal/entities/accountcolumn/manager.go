@@ -59,3 +59,7 @@ func Delete(acc AccountColumn) error {
 	}
 	return DataDelete(acc)
 }
+
+func ColumnIdxByName(accountId int, columnName string) int {
+	return DataColumnIdxByName(accountId, columnName)
+}

@@ -6,7 +6,7 @@ import (
 
 func DataExists(accountId int, fileName string) bool {
 	acc := &[]AccountTransaction{}
-	util.OpenFile("accounttransaction", acc)
+	util.OpenFile(ACCOUNTTRANSACTION, acc)
 	for _, a := range *acc {
 		if a.AccountId == accountId && a.FileName == fileName {
 			return true
@@ -17,9 +17,9 @@ func DataExists(accountId int, fileName string) bool {
 
 func DataCreate(acc AccountTransaction) error {
 	accs := []AccountTransaction{}
-	if err := util.OpenFile("accounttransaction", &accs); err != nil {
+	if err := util.OpenFile(ACCOUNTTRANSACTION, &accs); err != nil {
 		return err
 	}
 	accs = append(accs, acc)
-	return util.SaveFile("accounttransaction", accs)
+	return util.SaveFile(ACCOUNTTRANSACTION, accs)
 }

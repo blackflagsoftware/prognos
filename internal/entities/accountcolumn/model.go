@@ -9,3 +9,5 @@ type (
 		ColumnName string
 	}
 )
+
+const ACCOUNTCOLUMN = "accountColumn"

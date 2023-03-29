@@ -5,12 +5,12 @@ import (
 )
 
 func DataList(budgetAllocation *[]BudgetAllocation) error {
-	return util.OpenFile("budgetallocation", budgetAllocation)
+	return util.OpenFile(BUDGETALLOCATION, budgetAllocation)
 }
 
 func DataUpsert(categoryId int, amount float64) error {
 	budgetAllocations := []BudgetAllocation{}
-	if err := util.OpenFile("budgetallocation", &budgetAllocations); err != nil {
+	if err := util.OpenFile(BUDGETALLOCATION, &budgetAllocations); err != nil {
 		return err
 	}
 	update := false
@@ -23,5 +23,5 @@ func DataUpsert(categoryId int, amount float64) error {
 	if !update {
 		budgetAllocations = append(budgetAllocations, BudgetAllocation{CategoryId: categoryId, Amount: amount})
 	}
-	return util.SaveFile("budgetallocation", budgetAllocations)
+	return util.SaveFile(BUDGETALLOCATION, budgetAllocations)
 }
