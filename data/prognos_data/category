@@ -10,5 +10,29 @@
   {
     "Id": 3,
     "CategoryName": "Groceries"
+  },
+  {
+    "Id": 4,
+    "CategoryName": "EatingOut"
+  },
+  {
+    "Id": 5,
+    "CategoryName": "Charity"
+  },
+  {
+    "Id": 6,
+    "CategoryName": "Business"
+  },
+  {
+    "Id": 7,
+    "CategoryName": "Entertainment"
+  },
+  {
+    "Id": 8,
+    "CategoryName": "Gifts"
+  },
+  {
+    "Id": 9,
+    "CategoryName": "Medical"
   }
 ]

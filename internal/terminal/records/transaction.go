@@ -2,6 +2,8 @@ package records
 
 import (
 	"fmt"
+	"os"
+	"text/tabwriter"
 	"time"
 
 	tra "github.com/blackflagsoftware/prognos/internal/entities/transaction"
@@ -82,9 +84,14 @@ func readTransaction() {
 			addlText = "Record not found"
 		}
 		fmt.Printf("Transaction Details: %s\n", addlText)
+
+		writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
+		fmt.Fprintln(writer, "Id\tAccount\tCategory\tTxn Date\tAmount\tDescription")
+		fmt.Fprintln(writer, "----\t--------\t---------\t--------\t------\t----------")
 		if transaction.Id != 0 {
-			printTransactionDetail(*transaction)
+			printTransactionDetail(writer, *transaction)
 		}
+		writer.Flush()
 
 		if !util.AskYesOrNo("Read another transaction") {
 			break
@@ -161,9 +168,13 @@ func listTransaction() {
 	transactions := &[]tra.Transaction{}
 	tra.List(transactions)
 	fmt.Println("Transactions - List")
+	writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
+	fmt.Fprintln(writer, "Id\tAccount\tCategory\tTxn Date\tAmount\tDescription")
+	fmt.Fprintln(writer, "----\t--------\t---------\t--------\t------\t----------")
 	for _, transaction := range *transactions {
-		printTransactionDetail(transaction)
+		printTransactionDetail(writer, transaction)
 	}
+	writer.Flush()
 	fmt.Println("")
 	fmt.Print("Press 'enter' to continue ")
 	util.ParseInput()
@@ -189,12 +200,6 @@ func getTransaction(transaction *tra.Transaction) {
 	}
 }
 
-func printTransactionDetail(transaction tra.Transaction) {
-	fmt.Printf("Id: %d\n", transaction.Id)
-	fmt.Printf("Account Id: %d\n", transaction.AccountId)
-	fmt.Printf("Category Id: %d\n", transaction.CategoryId)
-	fmt.Printf("Transaction Date: %s\n", transaction.TxnDate.Format("01-02-2006"))
-	fmt.Printf("Amount: %0.2f\n", transaction.Amount)
-	fmt.Printf("Description: %s\n", transaction.Description)
-	fmt.Println("")
+func printTransactionDetail(writer *tabwriter.Writer, transaction tra.Transaction) {
+	fmt.Fprintf(writer, "%d\t%s\t%s\t%s\t%0.2f\t%s\n", transaction.Id, transaction.AccountName, transaction.CategoryName, transaction.TxnDate.Format("01-02-2006"), transaction.Amount, transaction.Description)
 }

@@ -47,7 +47,7 @@ func createAccountColumn() {
 		fmt.Println("")
 		PrintAccounts()
 		accountcolumn.AccountId = util.ParseInputIntWithMessage("AccountId*: ")
-		accountcolumn.ColumnName = util.ParseInputWithMessage("ColumnName [TxnDate | Amount | Description]*: ")
+		accountcolumn.ColumnName = util.ParseInputWithMessage("ColumnName [TxnDate | Amount | Description | Category]*: ")
 		accountcolumn.Position = util.ParseInputIntWithMessage("Position*: ")
 		err := ac.Create(accountcolumn)
 		if err != nil {
@@ -100,7 +100,7 @@ func updateAccountColumn() {
 		getAccountColumn(origAccountColumn)
 		newAccountColumn.Id = origAccountColumn.Id
 		newAccountColumn.AccountId = util.ParseInputIntWithMessageCompare(fmt.Sprintf("AccountId [%d]*: ", origAccountColumn.AccountId), origAccountColumn.AccountId)
-		newAccountColumn.ColumnName = util.ParseInputStringWithMessageCompare(fmt.Sprintf("ColumnName [%s] [TxnDate | Amount | Description]*: ", origAccountColumn.ColumnName), origAccountColumn.ColumnName)
+		newAccountColumn.ColumnName = util.ParseInputStringWithMessageCompare(fmt.Sprintf("ColumnName [%s] [TxnDate | Amount | Description | Category]*: ", origAccountColumn.ColumnName), origAccountColumn.ColumnName)
 		newAccountColumn.Position = util.ParseInputIntWithMessageCompare(fmt.Sprintf("Position [%d]*: ", origAccountColumn.Position), origAccountColumn.Position)
 		err := ac.Update(newAccountColumn)
 		if err != nil {

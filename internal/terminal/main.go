@@ -55,8 +55,8 @@ func TransactionMenu() {
 	for {
 		util.ClearScreen()
 		messages := []string{"** Transactions **", "Please make a selection"}
-		prompts := []string{"(l) Load"}
-		acceptablePrompts := []string{"l"}
+		prompts := []string{"(l) Load", "(u) List Uncategorized"}
+		acceptablePrompts := []string{"l", "u"}
 		exitString := "e"
 		selection := util.BasicPrompt(messages, prompts, acceptablePrompts, exitString)
 
@@ -66,6 +66,8 @@ func TransactionMenu() {
 		switch selection {
 		case "l":
 			tra.TransactionsLoad()
+		case "u":
+			tra.TransactionsUncategorized()
 		}
 	}
 }

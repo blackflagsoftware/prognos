@@ -16,5 +16,11 @@
     "AccountId": 1,
     "Position": 2,
     "ColumnName": "Description"
+  },
+  {
+    "Id": 4,
+    "AccountId": 1,
+    "Position": 2,
+    "ColumnName": "Category"
   }
 ]

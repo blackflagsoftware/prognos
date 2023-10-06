@@ -2,69 +2,61 @@
   {
     "id": 1,
     "accountId": 1,
-    "categoryId": 0,
-    "txnDate": "0001-01-01T00:00:00Z",
-    "amount": 0,
-    "description": "Description"
-  },
-  {
-    "id": 2,
-    "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
     "txnDate": "2022-08-14T00:00:00Z",
     "amount": 53.7,
     "description": "THAI LAND RESTAURANT"
   },
   {
-    "id": 3,
+    "id": 2,
     "accountId": 1,
-    "categoryId": 0,
-    "txnDate": "2022-08-12T00:00:00Z",
-    "amount": 5.61,
-    "description": "MCDONALD'S F11945 00"
-  },
-  {
-    "id": 4,
-    "accountId": 1,
-    "categoryId": 0,
-    "txnDate": "2022-08-11T00:00:00Z",
-    "amount": 4.47,
-    "description": "7 ELEVEN 36335 93633"
-  },
-  {
-    "id": 5,
-    "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 3,
     "txnDate": "2022-08-11T00:00:00Z",
     "amount": 179.22,
     "description": "MY PATRIOT SUPPLY 65"
   },
   {
-    "id": 6,
+    "id": 3,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
+    "txnDate": "2022-08-11T00:00:00Z",
+    "amount": 4.47,
+    "description": "7 ELEVEN 36335 93633"
+  },
+  {
+    "id": 4,
+    "accountId": 1,
+    "categoryId": 3,
+    "txnDate": "2022-08-11T00:00:00Z",
+    "amount": 179.22,
+    "description": "MY PATRIOT SUPPLY 65"
+  },
+  {
+    "id": 5,
+    "accountId": 1,
+    "categoryId": 4,
     "txnDate": "2022-08-10T00:00:00Z",
     "amount": 12.93,
     "description": "NIELSEN S FROZEN CUS"
   },
   {
-    "id": 7,
+    "id": 6,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
     "txnDate": "2022-08-09T00:00:00Z",
     "amount": 9.83,
     "description": "AplPay TACO BELL 542"
   },
   {
-    "id": 8,
+    "id": 7,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 2,
     "txnDate": "2022-08-09T00:00:00Z",
     "amount": 17.33,
     "description": "THE HOME DEPOT      "
   },
   {
-    "id": 9,
+    "id": 8,
     "accountId": 1,
     "categoryId": 0,
     "txnDate": "2022-08-07T00:00:00Z",
@@ -72,219 +64,403 @@
     "description": "AUTOPAY PAYMENT - TH"
   },
   {
-    "id": 10,
+    "id": 9,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
     "txnDate": "2022-08-06T00:00:00Z",
     "amount": 30.47,
     "description": "ASTRO BURGER 6500000"
   },
   {
-    "id": 11,
+    "id": 10,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 2,
     "txnDate": "2022-08-05T00:00:00Z",
     "amount": 87.25,
     "description": "2729 W 9000 S 125988"
   },
   {
-    "id": 12,
+    "id": 11,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 2,
     "txnDate": "2022-08-05T00:00:00Z",
     "amount": 517.34,
     "description": "BURT BROTHERS 011 JO"
   },
   {
-    "id": 13,
+    "id": 12,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
     "txnDate": "2022-08-05T00:00:00Z",
     "amount": 13.17,
     "description": "VILLAGE BAKER INC 65"
   },
   {
-    "id": 14,
+    "id": 13,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 3,
     "txnDate": "2022-08-03T00:00:00Z",
-    "amount": 21.4,
+    "amount": 21,
     "description": "MARKET AT           "
   },
   {
-    "id": 15,
+    "id": 14,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 5,
     "txnDate": "2022-08-01T00:00:00Z",
     "amount": 25,
     "description": "BT*OPERATION UNDERGR"
   },
   {
-    "id": 16,
+    "id": 15,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 6,
     "txnDate": "2022-08-01T00:00:00Z",
     "amount": 63.35,
     "description": "GOOGLE*CLOUD TRZPWB "
   },
   {
-    "id": 17,
+    "id": 16,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 6,
     "txnDate": "2022-08-01T00:00:00Z",
     "amount": 6.43,
     "description": "GOOGLE*GSUITE_BLACKF"
   },
   {
-    "id": 18,
+    "id": 17,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 3,
     "txnDate": "2022-08-01T00:00:00Z",
     "amount": 48.5,
     "description": "WAL-MART SUPERCENTER"
   },
   {
-    "id": 19,
+    "id": 18,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 3,
     "txnDate": "2022-07-30T00:00:00Z",
     "amount": 15.7,
     "description": "WAL-MART 2307 2307  "
   },
   {
-    "id": 20,
+    "id": 19,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
     "txnDate": "2022-07-29T00:00:00Z",
     "amount": 39.54,
     "description": "MARIAS MEXICAN GRILL"
   },
   {
-    "id": 21,
+    "id": 20,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
     "txnDate": "2022-07-29T00:00:00Z",
     "amount": 7.76,
     "description": "MENCHIE S FROYO MEN0"
   },
   {
-    "id": 22,
+    "id": 21,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 7,
     "txnDate": "2022-07-29T00:00:00Z",
     "amount": 15,
     "description": "MULLIGANS           "
   },
   {
-    "id": 23,
+    "id": 22,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 2,
     "txnDate": "2022-07-26T00:00:00Z",
     "amount": 46.72,
     "description": "SMITHS-FUEL #9138 Q7"
   },
   {
-    "id": 24,
+    "id": 23,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
     "txnDate": "2022-07-25T00:00:00Z",
     "amount": 41.37,
     "description": "BB DINER            "
   },
   {
-    "id": 25,
+    "id": 24,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
     "txnDate": "2022-07-23T00:00:00Z",
     "amount": 9,
     "description": "TACO BELL 033176    "
   },
   {
-    "id": 26,
+    "id": 25,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
     "txnDate": "2022-07-22T00:00:00Z",
     "amount": 11.77,
     "description": "SUBWAY              "
   },
   {
-    "id": 27,
+    "id": 26,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 8,
     "txnDate": "2022-07-21T00:00:00Z",
     "amount": 258.33,
     "description": "ALASKAN INN AND SPA "
   },
   {
-    "id": 28,
+    "id": 27,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
     "txnDate": "2022-07-20T00:00:00Z",
     "amount": 7.89,
     "description": "MCDONALD'S F14285 00"
   },
   {
-    "id": 29,
+    "id": 28,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 9,
     "txnDate": "2022-07-20T00:00:00Z",
     "amount": 14.47,
     "description": "WALGREENS           "
   },
   {
-    "id": 30,
+    "id": 29,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
     "txnDate": "2022-07-16T00:00:00Z",
     "amount": 56.02,
     "description": "117 RUMBI ISLAND GRI"
   },
   {
-    "id": 31,
+    "id": 30,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
     "txnDate": "2022-07-16T00:00:00Z",
     "amount": 30.39,
     "description": "DOMINO'S 7517 000007"
   },
   {
-    "id": 32,
+    "id": 31,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
     "txnDate": "2022-07-15T00:00:00Z",
     "amount": 67.43,
     "description": "CHICK-FIL-A #02833 0"
   },
   {
-    "id": 33,
+    "id": 32,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
     "txnDate": "2022-07-15T00:00:00Z",
     "amount": 15.18,
     "description": "CRUMBL              "
   },
   {
-    "id": 34,
+    "id": 33,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 7,
     "txnDate": "2022-07-15T00:00:00Z",
     "amount": 42.89,
     "description": "STEAMPOWERED.COM    "
   },
   {
-    "id": 35,
+    "id": 34,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 4,
     "txnDate": "2022-07-14T00:00:00Z",
     "amount": 8.1,
     "description": "ARBY'S              "
   },
   {
-    "id": 36,
+    "id": 35,
     "accountId": 1,
-    "categoryId": 0,
+    "categoryId": 9,
     "txnDate": "2022-07-14T00:00:00Z",
     "amount": 129,
     "description": "WASATCH VIEW EYE CAR"
+  },
+  {
+    "id": 36,
+    "accountId": 1,
+    "categoryId": 0,
+    "txnDate": "2022-09-12T00:00:00Z",
+    "amount": 204.51,
+    "description": "THE OLIVE GARDEN"
+  },
+  {
+    "id": 37,
+    "accountId": 1,
+    "categoryId": 0,
+    "txnDate": "2022-09-10T00:00:00Z",
+    "amount": 49.14,
+    "description": "WINGERS"
+  },
+  {
+    "id": 38,
+    "accountId": 1,
+    "categoryId": 0,
+    "txnDate": "2022-09-09T00:00:00Z",
+    "amount": 109,
+    "description": "APTIVE ENVIRONMENTAL"
+  },
+  {
+    "id": 39,
+    "accountId": 1,
+    "categoryId": 4,
+    "txnDate": "2022-09-09T00:00:00Z",
+    "amount": 28.8,
+    "description": "NIELSEN S FROZEN CUS"
+  },
+  {
+    "id": 40,
+    "accountId": 1,
+    "categoryId": 0,
+    "txnDate": "2022-09-07T00:00:00Z",
+    "amount": -1912.56,
+    "description": "AUTOPAY PAYMENT - THANK YOU"
+  },
+  {
+    "id": 41,
+    "accountId": 1,
+    "categoryId": 0,
+    "txnDate": "2022-09-03T00:00:00Z",
+    "amount": 9.19,
+    "description": "CAFE RIO 0006"
+  },
+  {
+    "id": 42,
+    "accountId": 1,
+    "categoryId": 0,
+    "txnDate": "2022-09-02T00:00:00Z",
+    "amount": 251.98,
+    "description": "DOYLE'S APPLIANCE SE"
+  },
+  {
+    "id": 43,
+    "accountId": 1,
+    "categoryId": 5,
+    "txnDate": "2022-09-01T00:00:00Z",
+    "amount": 25,
+    "description": "BT*OPERATION UNDERGR"
+  },
+  {
+    "id": 44,
+    "accountId": 1,
+    "categoryId": 6,
+    "txnDate": "2022-09-01T00:00:00Z",
+    "amount": 63.36,
+    "description": "GOOGLE*CLOUD 9XKV5P CC GOOGLE.COM"
+  },
+  {
+    "id": 45,
+    "accountId": 1,
+    "categoryId": 6,
+    "txnDate": "2022-09-01T00:00:00Z",
+    "amount": 6.42,
+    "description": "GOOGLE*GSUITE_BLACKF"
+  },
+  {
+    "id": 46,
+    "accountId": 1,
+    "categoryId": 4,
+    "txnDate": "2022-08-31T00:00:00Z",
+    "amount": 8.65,
+    "description": "AplPay TACO BELL 542"
+  },
+  {
+    "id": 47,
+    "accountId": 1,
+    "categoryId": 0,
+    "txnDate": "2022-08-31T00:00:00Z",
+    "amount": 63.28,
+    "description": "SP SUPPLY.CO"
+  },
+  {
+    "id": 48,
+    "accountId": 1,
+    "categoryId": 0,
+    "txnDate": "2022-08-26T00:00:00Z",
+    "amount": 79.57,
+    "description": "THE GARAGE GRILL"
+  },
+  {
+    "id": 49,
+    "accountId": 1,
+    "categoryId": 0,
+    "txnDate": "2022-08-25T00:00:00Z",
+    "amount": 39.13,
+    "description": "AMAZON MARKEPLACE"
+  },
+  {
+    "id": 50,
+    "accountId": 1,
+    "categoryId": 0,
+    "txnDate": "2022-08-25T00:00:00Z",
+    "amount": 15.74,
+    "description": "CROWN BURGERS #2 868"
+  },
+  {
+    "id": 51,
+    "accountId": 1,
+    "categoryId": 4,
+    "txnDate": "2022-08-24T00:00:00Z",
+    "amount": 10,
+    "description": "MENCHIE S FROYO MEN0"
+  },
+  {
+    "id": 52,
+    "accountId": 1,
+    "categoryId": 0,
+    "txnDate": "2022-08-23T00:00:00Z",
+    "amount": 20,
+    "description": "CASCADE SEDDIE"
+  },
+  {
+    "id": 53,
+    "accountId": 1,
+    "categoryId": 0,
+    "txnDate": "2022-08-22T00:00:00Z",
+    "amount": 22.81,
+    "description": "TST* PIZZA PIE CAFE"
+  },
+  {
+    "id": 54,
+    "accountId": 1,
+    "categoryId": 4,
+    "txnDate": "2022-08-19T00:00:00Z",
+    "amount": 10.34,
+    "description": "DOMINO'S 9116 000009"
+  },
+  {
+    "id": 55,
+    "accountId": 1,
+    "categoryId": 4,
+    "txnDate": "2022-08-19T00:00:00Z",
+    "amount": 39.04,
+    "description": "DOMINO'S PIZZA"
+  },
+  {
+    "id": 56,
+    "accountId": 1,
+    "categoryId": 0,
+    "txnDate": "2022-08-18T00:00:00Z",
+    "amount": 8.52,
+    "description": "TST* SANTO TACO SHOP"
+  },
+  {
+    "id": 57,
+    "accountId": 1,
+    "categoryId": 0,
+    "txnDate": "2022-08-17T00:00:00Z",
+    "amount": 39.46,
+    "description": "AMAZON MARKEPLACE"
+  },
+  {
+    "id": 58,
+    "accountId": 1,
+    "categoryId": 3,
+    "txnDate": "2022-08-17T00:00:00Z",
+    "amount": 180.15,
+    "description": "MY PATRIOT SUPPLY 65"
   }
 ]

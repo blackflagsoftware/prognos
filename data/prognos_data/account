@@ -6,7 +6,7 @@
     "DateFormat": "mm/dd/yyyy",
     "ReverseSign": false,
     "SkipHeader": true,
-    "LineSep": "\\n",
+    "LineSep": "\n",
     "ElementSep": ","
   },
   {

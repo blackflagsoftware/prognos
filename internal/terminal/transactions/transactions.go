@@ -6,10 +6,14 @@ import (
 	"path"
 	"strconv"
 	"strings"
+	"text/tabwriter"
 
 	"github.com/blackflagsoftware/prognos/config"
 	acc "github.com/blackflagsoftware/prognos/internal/entities/account"
 	at "github.com/blackflagsoftware/prognos/internal/entities/accounttransaction"
+	cat "github.com/blackflagsoftware/prognos/internal/entities/category"
+	tra "github.com/blackflagsoftware/prognos/internal/entities/transaction"
+	th "github.com/blackflagsoftware/prognos/internal/entities/transactionhistory"
 	rec "github.com/blackflagsoftware/prognos/internal/terminal/records"
 	"github.com/blackflagsoftware/prognos/internal/util"
 )
@@ -62,5 +66,86 @@ func TransactionsLoad() {
 			util.ParseInput()
 			break
 		}
+	}
+}
+
+func TransactionsUncategorized() {
+	for {
+		util.ClearScreen()
+		rec.PrintAccounts()
+		accountId := util.ParseInputIntWithMessage("Filter by Account (0 - exit): ")
+		if accountId == 0 {
+			break
+		}
+		// load categories
+		categories := []cat.Category{}
+		if err := cat.List(&categories); err != nil {
+			fmt.Println("TransactionsUncategorized: failed to load categories, error:", err)
+			break
+		}
+		// load transactions
+		transactions := at.LoadUncategorizedTransactions(accountId)
+		writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
+	newTransaction:
+		for i, t := range transactions {
+			util.ClearScreen()
+			fmt.Fprintln(writer, "Txn Date\tAmount\tDescription")
+			fmt.Fprintln(writer, "--------\t------\t-----------")
+			fmt.Fprintf(writer, "%s\t%0.2f\t%s\n", t.TxnDate, t.Amount, t.Description)
+			writer.Flush()
+			for {
+				rec.PrintCategories(categories)
+				fmt.Println("(s) Skip")
+				fmt.Println("(n) New Category")
+				selection := util.ParseInputWithMessage("Category Id to assign to this transaction: ")
+				if strings.ToLower(selection) == "s" {
+					continue newTransaction
+				}
+				if strings.ToLower(selection) == "n" {
+					// TODO: makes the loop too long; refactor for video
+					for {
+						newCategory := util.ParseInputWithMessage("Enter in the new category (e - exit): ")
+						if strings.ToLower(newCategory) == "e" {
+							break
+						}
+						c := cat.Category{CategoryName: newCategory}
+						if err := cat.CheckAndCreate(&c); err != nil {
+							fmt.Println(err)
+							yesNo := util.AskYesOrNo("Try again (y/n): ")
+							if yesNo {
+								continue
+							}
+						}
+						// apply the new category to our existing list
+						categories = append(categories, c)
+						// TODO: refactor this; for video
+						transactions[i].CategoryId = c.Id
+						if err := tra.Update(transactions[i]); err != nil {
+							fmt.Println("TransactionsUncategorized: updating transaction:", err)
+						}
+						if err := th.Create(transactions[i].Description, c.Id); err != nil {
+							fmt.Println("TransactionsUncategorized: creating transaction history:", err)
+						}
+						break
+					}
+					continue newTransaction
+				}
+				selectionInt, err := strconv.Atoi(selection)
+				if err != nil {
+					fmt.Println("Invalid selection, press 'enter' to try again")
+					util.ParseInput()
+					continue
+				}
+				transactions[i].CategoryId = selectionInt
+				if err := tra.Update(transactions[i]); err != nil {
+					fmt.Println("TransactionsUncategorized: updating transaction:", err)
+				}
+				if err := th.Create(transactions[i].Description, selectionInt); err != nil {
+					fmt.Println("TransactionsUncategorized: creating transaction history:", err)
+				}
+				break
+			}
+		}
+
 	}
 }

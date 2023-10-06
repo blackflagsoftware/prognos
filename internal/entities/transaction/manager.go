@@ -43,3 +43,7 @@ func Delete(tra Transaction) error {
 func DeleteAll() error {
 	return DataDeleteAll()
 }
+
+func Uncategorized(transactions *[]Transaction, accountId int) error {
+	return DataUncategorized(transactions, accountId)
+}

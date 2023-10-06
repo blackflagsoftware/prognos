@@ -23,7 +23,9 @@ func Create(acc AccountColumn) error {
 	if acc.ColumnName != "TxnDate" {
 		if acc.ColumnName != "Amount" {
 			if acc.ColumnName != "Description" {
-				return fmt.Errorf("Invalid ColumnName, valid options [TxnDate | Amount | Description]")
+				if acc.ColumnName != "Category" {
+					return fmt.Errorf("Invalid ColumnName, valid options [TxnDate | Amount | Description | Category]")
+				}
 			}
 		}
 	}
@@ -43,7 +45,9 @@ func Update(acc AccountColumn) error {
 	if acc.ColumnName != "TxnDate" {
 		if acc.ColumnName != "Amount" {
 			if acc.ColumnName != "Description" {
-				return fmt.Errorf("Invalid ColumnName, valid options [TxnDate | Amount | Description]")
+				if acc.ColumnName != "Category" {
+					return fmt.Errorf("Invalid ColumnName, valid options [TxnDate | Amount | Description | Category]")
+				}
 			}
 		}
 	}

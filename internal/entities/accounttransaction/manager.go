@@ -11,6 +11,7 @@ import (
 	acc "github.com/blackflagsoftware/prognos/internal/entities/account"
 	ac "github.com/blackflagsoftware/prognos/internal/entities/accountcolumn"
 	tra "github.com/blackflagsoftware/prognos/internal/entities/transaction"
+	th "github.com/blackflagsoftware/prognos/internal/entities/transactionhistory"
 )
 
 func LoadTransactionFile(account acc.Account, filePath string) error {
@@ -64,6 +65,14 @@ func LoadTransactionFile(account acc.Account, filePath string) error {
 		} else {
 			description = string(lineParts[idx])
 		}
+		// category - if no category is available, set it to the description column position
+		categoryId := 0 // set to 'Unknown'
+		idx = ac.ColumnIdxByName(account.Id, "Category")
+		if idx == -1 {
+			fmt.Println("Category position couldn't be found")
+		} else {
+			categoryId = th.FindCategory(string(lineParts[idx]))
+		}
 		// amount
 		amountStr := "0"
 		idx = ac.ColumnIdxByName(account.Id, "Amount")
@@ -88,6 +97,7 @@ func LoadTransactionFile(account acc.Account, filePath string) error {
 			TxnDate:     transactionDate,
 			Description: description,
 			Amount:      amount,
+			CategoryId:  categoryId,
 		}
 		if err := tra.Create(transaction); err != nil {
 			fmt.Printf("Transaction: %v, failed to be created: %s\n", transaction, err)
@@ -96,4 +106,12 @@ func LoadTransactionFile(account acc.Account, filePath string) error {
 	accountTransaction := AccountTransaction{AccountId: account.Id, FileName: fileName, DateLoaded: time.Now().UTC().Format(time.RFC3339)}
 	DataCreate(accountTransaction)
 	return nil
+}
+
+func LoadUncategorizedTransactions(accountId int) []tra.Transaction {
+	transactions := []tra.Transaction{}
+	if err := tra.Uncategorized(&transactions, accountId); err != nil {
+		fmt.Println("LoadUncategorizedTransactions: error", err)
+	}
+	return transactions
 }
