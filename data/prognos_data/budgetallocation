@@ -1,0 +1,42 @@
+[
+  {
+    "CategoryId": 1,
+    "Amount": 200
+  },
+  {
+    "CategoryId": 2,
+    "Amount": 50
+  },
+  {
+    "CategoryId": 2,
+    "Amount": 300
+  },
+  {
+    "CategoryId": 3,
+    "Amount": 400
+  },
+  {
+    "CategoryId": 4,
+    "Amount": 300
+  },
+  {
+    "CategoryId": 5,
+    "Amount": 200
+  },
+  {
+    "CategoryId": 6,
+    "Amount": 50
+  },
+  {
+    "CategoryId": 7,
+    "Amount": 150
+  },
+  {
+    "CategoryId": 8,
+    "Amount": 40
+  },
+  {
+    "CategoryId": 9,
+    "Amount": 50
+  }
+]
