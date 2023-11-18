@@ -3,7 +3,6 @@ package budget
 import (
 	"fmt"
 	"os"
-	"strings"
 	"text/tabwriter"
 	"time"
 
@@ -17,8 +16,8 @@ func ReportMenu() {
 	for {
 		util.ClearScreen()
 		messages := []string{"** Report **", "Please make a selection"}
-		prompts := []string{"(l) Last Month", "(c) Custom"}
-		acceptablePrompts := []string{"l", "c"}
+		prompts := []string{"(l) Last Month", "(m) Month/Year", "(c) Custom Range"}
+		acceptablePrompts := []string{"l", "m", "c"}
 		exitString := "e"
 		selection := util.BasicPrompt(messages, prompts, acceptablePrompts, exitString)
 
@@ -28,6 +27,8 @@ func ReportMenu() {
 		switch selection {
 		case "l":
 			LastMonth()
+		case "m":
+			MonthYear()
 		case "c":
 			CustomMonth()
 		}
@@ -45,6 +46,29 @@ func LastMonth() {
 	printBudget(startDate, endDate, transactions)
 }
 
+func MonthYear() {
+	// get start and end dates
+	var startDate, endDate time.Time
+	var err error
+	// refactor this; exercise (should be in util)
+	for {
+		startDateStr := util.ParseInputWithMessage("Month/Year (mm-yyyy): ")
+		startDate, err = time.Parse("01-2006", startDateStr)
+		if err != nil {
+			fmt.Println("Invalid date format mm-dd-yyyy")
+			continue
+		}
+		break
+	}
+	endDate = startDate.AddDate(0, 1, 0)
+	transactions := []tra.Transaction{}
+	if err := tra.TransactionByDate(&transactions, startDate, endDate); err != nil {
+		fmt.Println("Unable to get transactions by date", err)
+		return
+	}
+	printBudget(startDate, endDate, transactions)
+}
+
 func CustomMonth() {
 	// get start and end dates
 	var startDate, endDate time.Time
@@ -54,7 +78,7 @@ func CustomMonth() {
 		startDateStr := util.ParseInputWithMessage("Custom Start Date (mm-dd-yyyy): ")
 		startDate, err = time.Parse("01-02-2006", startDateStr)
 		if err != nil {
-			fmt.Println("Invalid date format yyyy/mm/dd")
+			fmt.Println("Invalid date format mm-dd-yyyy")
 			continue
 		}
 		break
@@ -63,7 +87,7 @@ func CustomMonth() {
 		endDateStr := util.ParseInputWithMessage("Custom End Date (mm-dd-yyyy; not inclusive): ")
 		endDate, err = time.Parse("01-02-2006", endDateStr)
 		if err != nil {
-			fmt.Println("Invalid date format yyyy/mm/dd")
+			fmt.Println("Invalid date format mm-dd-yyyy")
 			continue
 		}
 		break
@@ -162,9 +186,8 @@ func printBudget(startDate, endDate time.Time, transactions []tra.Transaction) {
 	fmt.Fprintln(writer, "Category\tAmount\tBudget\tNote")
 	fmt.Fprintln(writer, "----------\t---------\t----------\t--------")
 	for categoryId, Amount := range transactionMap {
-		// TODO: leave for homework
 		categoryName := categoryMap[categoryId]
-		if !strings.Contains(strings.ToLower(categoryName), "payment") {
+		if categoryId != 0 {
 			budgetAmount := FindBudgetAllocation(categoryId, budgetAllocation)
 			note := ""
 			if budgetAmount > 0 {
