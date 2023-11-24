@@ -18,5 +18,15 @@
     "SkipHeader": false,
     "LineSep": "",
     "ElementSep": ""
+  },
+  {
+    "Id": 3,
+    "AccountName": "Sams",
+    "OwnerName": "Eric",
+    "DateFormat": "yyyy/mm/dd",
+    "ReverseSign": true,
+    "SkipHeader": true,
+    "LineSep": "\n",
+    "ElementSep": ","
   }
 ]

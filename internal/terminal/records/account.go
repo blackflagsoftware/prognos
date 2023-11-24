@@ -3,11 +3,21 @@ package records
 import (
 	"fmt"
 	"os"
+	"strings"
 	"text/tabwriter"
 
 	a "github.com/blackflagsoftware/prognos/internal/entities/account"
 	"github.com/blackflagsoftware/prognos/internal/util"
 )
+
+var (
+	accountManager a.AccountManager
+)
+
+func init() {
+	as := a.InitStorage()
+	accountManager = a.NewAccountManager(as)
+}
 
 func AccountMenu() {
 	for {
@@ -50,7 +60,7 @@ func createAccount() {
 		account.SkipHeader = util.ParseInputBoolWithMessage("Skip Header: ")
 		account.LineSep = util.ParseInputWithMessage("Line Seprator (default '\\n'): ")
 		account.ElementSep = util.ParseInputWithMessage("Element Seprator (default ','): ")
-		err := a.Create(account)
+		err := accountManager.Create(account)
 		if err != nil {
 			fmt.Printf("Account was not added: %s\n", err)
 			fmt.Print("Press 'enter' to continue")
@@ -75,10 +85,14 @@ func readAccount() {
 		fmt.Printf("Account Details: %s\n", addlText)
 		fmt.Println("")
 		if account.Id != 0 {
+			lineSep := strings.TrimSuffix(account.LineSep, " ")
+			if lineSep == "\n" {
+				lineSep = "new-line"
+			}
 			writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
 			fmt.Fprintln(writer, "Id\tAccountName\tOwnerName\tDateFormat\tReverseSign\tSkipHeader\tLineSeparator\tElementSeparator")
 			fmt.Fprintln(writer, "----\t---------\t--------\t--------\t--------\t----------\t--------------\t----------------")
-			fmt.Fprintf(writer, "%d\t%s\t%s\t%s\t%t\t%t\t%s\t%s\n", account.Id, account.AccountName, account.OwnerName, account.DateFormat, account.ReverseSign, account.SkipHeader, account.LineSep, account.ElementSep)
+			fmt.Fprintf(writer, "%d\t%s\t%s\t%s\t%t\t%t\t%s\t%s\n", account.Id, account.AccountName, account.OwnerName, account.DateFormat, account.ReverseSign, account.SkipHeader, lineSep, account.ElementSep)
 			writer.Flush()
 		}
 		fmt.Println("")
@@ -106,7 +120,7 @@ func updateAccount() {
 		newAccount.SkipHeader = util.ParseInputBoolWithMessageCompare(fmt.Sprintf("Skip Header[%t]*: ", origAccount.SkipHeader), origAccount.SkipHeader)
 		newAccount.LineSep = util.ParseInputStringWithMessageCompare(fmt.Sprintf("Line Separator[%s]: ", origAccount.LineSep), string(origAccount.LineSep))
 		newAccount.ElementSep = util.ParseInputStringWithMessageCompare(fmt.Sprintf("Element Separator[%s]: ", origAccount.ElementSep), string(origAccount.ElementSep))
-		err := a.Update(newAccount)
+		err := accountManager.Update(newAccount)
 		if err != nil {
 			fmt.Printf("Account was not updated: %s\n", err)
 			fmt.Print("Press 'enter' to continue")
@@ -124,7 +138,7 @@ func deleteAccount() {
 	for {
 		util.ClearScreen()
 		account.Id = util.ParseInputIntWithMessage("Enter Account Id to delete: ")
-		err := a.Delete(account)
+		err := accountManager.Delete(account)
 		if err != nil {
 			fmt.Printf("Account was not deleted: %s\n", err)
 			fmt.Print("Press 'enter' to continue")
@@ -139,14 +153,18 @@ func deleteAccount() {
 
 func listAccount() {
 	accounts := &[]a.Account{}
-	a.List(accounts)
+	accountManager.List(accounts)
 	fmt.Println("Accounts - List")
 	fmt.Println("")
 	writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
 	fmt.Fprintln(writer, "Id\tAccountName\tOwnerName\tDateFormat\tReverseSign\tSkipHeader\tLineSeparator\tElementSeparator")
 	fmt.Fprintln(writer, "----\t---------\t--------\t--------\t--------\t----------\t--------------\t----------------")
 	for _, account := range *accounts {
-		fmt.Fprintf(writer, "%d\t%s\t%s\t%s\t%t\t%t\t%s\t%s\n", account.Id, account.AccountName, account.OwnerName, account.DateFormat, account.ReverseSign, account.SkipHeader, account.LineSep, account.ElementSep)
+		lineSep := strings.TrimSuffix(account.LineSep, " ")
+		if lineSep == "\n" {
+			lineSep = "new-line"
+		}
+		fmt.Fprintf(writer, "%d\t%s\t%s\t%s\t%t\t%t\t%s\t%s\n", account.Id, account.AccountName, account.OwnerName, account.DateFormat, account.ReverseSign, account.SkipHeader, lineSep, account.ElementSep)
 	}
 	writer.Flush()
 	fmt.Println("")
@@ -157,7 +175,7 @@ func listAccount() {
 func getAccount(account *a.Account) {
 	for {
 		account.Id = util.ParseInputIntWithMessage("Enter Account Id: ")
-		err := a.Read(account)
+		err := accountManager.Read(account)
 		if err != nil {
 			fmt.Printf("Account was not added: %s\n", err)
 			fmt.Print("Press 'enter' to continue")

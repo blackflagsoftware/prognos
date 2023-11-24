@@ -48,7 +48,9 @@ func TransactionsLoad() {
 				continue
 			}
 			account := acc.Account{Id: int(accountId)}
-			if err := acc.DataRead(&account); err != nil {
+			as := acc.InitStorage()
+			am := acc.NewAccountManager(as)
+			if err := am.Read(&account); err != nil {
 				fmt.Println("Invalid selection, press 'enter' to try again")
 				util.ParseInput()
 				continue

@@ -6,6 +6,7 @@ import (
 	"os"
 	"path"
 	"strconv"
+	"strings"
 	"time"
 
 	acc "github.com/blackflagsoftware/prognos/internal/entities/account"
@@ -27,7 +28,7 @@ func LoadTransactionFile(account acc.Account, filePath string) error {
 		return fmt.Errorf("Error: unable to read file path: %v", err)
 	}
 	// go through each line and get the data per column that match the account column for amount, date, description, category (optional), check reversesign
-	lineSep := account.LineSep
+	lineSep := strings.TrimSuffix(account.LineSep, " ")
 	if lineSep == "" {
 		lineSep = "\n"
 	}

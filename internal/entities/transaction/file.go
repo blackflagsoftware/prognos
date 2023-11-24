@@ -127,7 +127,9 @@ func categoryIdToName(catId int) string {
 
 func accountIdToName(accId int) string {
 	a := acc.Account{Id: accId}
-	if err := acc.DataRead(&a); err != nil {
+	as := acc.InitStorage()
+	am := acc.NewAccountManager(as)
+	if err := am.Read(&a); err != nil {
 		return ""
 	}
 	return a.AccountName

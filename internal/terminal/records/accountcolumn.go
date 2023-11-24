@@ -169,7 +169,9 @@ func getAccountColumn(accountcolumn *ac.AccountColumn) {
 
 func PrintAccounts() {
 	accounts := []acc.Account{}
-	err := acc.List(&accounts)
+	as := acc.InitStorage()
+	am := acc.NewAccountManager(as)
+	err := am.List(&accounts)
 	if err != nil {
 		fmt.Println("Could not read account:", err)
 		return

@@ -4,7 +4,11 @@ import (
 	"github.com/blackflagsoftware/prognos/internal/util"
 )
 
-func DataRead(acc *Account) error {
+type (
+	AccountFileData struct{}
+)
+
+func (a *AccountFileData) Read(acc *Account) error {
 	accs := []Account{}
 	if err := util.OpenFile(ACCOUNT, &accs); err != nil {
 		return err
@@ -28,11 +32,11 @@ func DataRead(acc *Account) error {
 	return nil
 }
 
-func DataList(acc *[]Account) error {
+func (a *AccountFileData) List(acc *[]Account) error {
 	return util.OpenFile(ACCOUNT, acc)
 }
 
-func DataCreate(acc Account) error {
+func (a *AccountFileData) Create(acc Account) error {
 	accs := []Account{}
 	if err := util.OpenFile(ACCOUNT, &accs); err != nil {
 		return err
@@ -54,7 +58,7 @@ func DataCreate(acc Account) error {
 	return util.SaveFile(ACCOUNT, accs)
 }
 
-func DataUpdate(acc Account) error {
+func (a *AccountFileData) Update(acc Account) error {
 	accs := []Account{}
 	if err := util.OpenFile(ACCOUNT, &accs); err != nil {
 		return err
@@ -74,7 +78,7 @@ func DataUpdate(acc Account) error {
 	return util.SaveFile(ACCOUNT, accs)
 }
 
-func DataDelete(acc Account) error {
+func (a *AccountFileData) Delete(acc Account) error {
 	accs := []Account{}
 	if err := util.OpenFile(ACCOUNT, &accs); err != nil {
 		return err
