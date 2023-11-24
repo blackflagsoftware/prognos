@@ -2,13 +2,18 @@ package transaction
 
 import (
 	"fmt"
+	"time"
 
 	acc "github.com/blackflagsoftware/prognos/internal/entities/account"
 	cat "github.com/blackflagsoftware/prognos/internal/entities/category"
 	"github.com/blackflagsoftware/prognos/internal/util"
 )
 
-func DataRead(tra *Transaction) error {
+type (
+	TransactionFileData struct{}
+)
+
+func (t *TransactionFileData) Read(tra *Transaction) error {
 	tras := []Transaction{}
 	if err := util.OpenFile(TRANSACTION, &tras); err != nil {
 		return err
@@ -35,7 +40,7 @@ func DataRead(tra *Transaction) error {
 	return nil
 }
 
-func DataList(tra *[]Transaction) error {
+func (t *TransactionFileData) List(tra *[]Transaction) error {
 	err := util.OpenFile(TRANSACTION, tra)
 	if err != nil {
 		return err
@@ -50,7 +55,7 @@ func DataList(tra *[]Transaction) error {
 	return nil
 }
 
-func DataCreate(tra Transaction) error {
+func (t *TransactionFileData) Create(tra Transaction) error {
 	tras := []Transaction{}
 	if err := util.OpenFile(TRANSACTION, &tras); err != nil {
 		return err
@@ -66,7 +71,7 @@ func DataCreate(tra Transaction) error {
 	return util.SaveFile(TRANSACTION, tras)
 }
 
-func DataUpdate(tra Transaction) error {
+func (t *TransactionFileData) Update(tra Transaction) error {
 	tras := []Transaction{}
 	if err := util.OpenFile(TRANSACTION, &tras); err != nil {
 		return err
@@ -80,7 +85,7 @@ func DataUpdate(tra Transaction) error {
 	return util.SaveFile(TRANSACTION, tras)
 }
 
-func DataDelete(tra Transaction) error {
+func (t *TransactionFileData) Delete(tra Transaction) error {
 	tras := []Transaction{}
 	if err := util.OpenFile(TRANSACTION, &tras); err != nil {
 		return err
@@ -94,7 +99,7 @@ func DataDelete(tra Transaction) error {
 	return util.SaveFile(TRANSACTION, tras)
 }
 
-func DataDeleteAll() error {
+func (t *TransactionFileData) DeleteAll() error {
 	tras := []Transaction{}
 	if err := util.OpenFile(TRANSACTION, &tras); err != nil {
 		return err
@@ -103,7 +108,7 @@ func DataDeleteAll() error {
 	return util.SaveFile(TRANSACTION, tras)
 }
 
-func DataUncategorized(transactions *[]Transaction, accountId int) error {
+func (t *TransactionFileData) Uncategorized(transactions *[]Transaction, accountId int) error {
 	tras := []Transaction{}
 	if err := util.OpenFile("transaction", &tras); err != nil {
 		return err
@@ -117,9 +122,24 @@ func DataUncategorized(transactions *[]Transaction, accountId int) error {
 	return nil
 }
 
+func (t *TransactionFileData) TransactionByDate(transactions *[]Transaction, startDate time.Time, endDate time.Time) error {
+	allTransactions := []Transaction{}
+	if err := t.List(&allTransactions); err != nil {
+		return err
+	}
+	for _, t := range allTransactions {
+		if (startDate.Equal(t.TxnDate) || startDate.Before(t.TxnDate)) && endDate.After(t.TxnDate) {
+			*transactions = append(*transactions, t)
+		}
+	}
+	return nil
+}
+
 func categoryIdToName(catId int) string {
 	c := cat.Category{Id: catId}
-	if err := cat.DataRead(&c); err != nil {
+	cs := cat.InitStorage()
+	cm := cat.NewCategoryManager(cs)
+	if err := cm.Read(&c); err != nil {
 		return ""
 	}
 	return c.CategoryName

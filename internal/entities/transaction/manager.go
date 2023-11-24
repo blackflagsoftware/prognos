@@ -5,61 +5,70 @@ import (
 	"time"
 )
 
-func Read(tra *Transaction) error {
+type (
+	TransactionDataAdapter interface {
+		Read(*Transaction) error
+		List(*[]Transaction) error
+		Create(Transaction) error
+		Update(Transaction) error
+		Delete(Transaction) error
+		DeleteAll() error
+		Uncategorized(*[]Transaction, int) error
+		TransactionByDate(*[]Transaction, time.Time, time.Time) error
+	}
+
+	TransactionManager struct {
+		transactionDataAdapter TransactionDataAdapter
+	}
+)
+
+func NewTransactionManager(ta TransactionDataAdapter) *TransactionManager {
+	return &TransactionManager{transactionDataAdapter: ta}
+}
+
+func (t *TransactionManager) Read(tra *Transaction) error {
 	if tra.Id < 1 {
 		return fmt.Errorf("Invalid Id")
 	}
-	return DataRead(tra)
+	return t.transactionDataAdapter.Read(tra)
 }
 
-func List(tra *[]Transaction) error {
-	return DataList(tra)
+func (t *TransactionManager) List(tra *[]Transaction) error {
+	return t.transactionDataAdapter.List(tra)
 }
 
-func Create(tra Transaction) error {
+func (t *TransactionManager) Create(tra Transaction) error {
 	if tra.AccountId < 1 {
 		return fmt.Errorf("Invalid AccountId")
 	}
-	// if tra.CategoryId < 1 {
-	// 	return fmt.Errorf("Invalid CategoryId")
-	// }
-	return DataCreate(tra)
+	return t.transactionDataAdapter.Create(tra)
 }
 
-func Update(tra Transaction) error {
+func (t *TransactionManager) Update(tra Transaction) error {
 	if tra.AccountId < 1 {
 		return fmt.Errorf("Invalid AccountId")
 	}
 	if tra.CategoryId < 1 {
 		return fmt.Errorf("Invalid CategoryId")
 	}
-	return DataUpdate(tra)
+	return t.transactionDataAdapter.Update(tra)
 }
 
-func Delete(tra Transaction) error {
+func (t *TransactionManager) Delete(tra Transaction) error {
 	if tra.Id < 1 {
 		return fmt.Errorf("Invalid Id")
 	}
-	return DataDelete(tra)
+	return t.transactionDataAdapter.Delete(tra)
 }
 
-func DeleteAll() error {
-	return DataDeleteAll()
+func (t *TransactionManager) DeleteAll() error {
+	return t.transactionDataAdapter.DeleteAll()
 }
 
-func Uncategorized(transactions *[]Transaction, accountId int) error {
-	return DataUncategorized(transactions, accountId)
+func (t *TransactionManager) Uncategorized(transactions *[]Transaction, accountId int) error {
+	return t.transactionDataAdapter.Uncategorized(transactions, accountId)
 }
 
-func TransactionByDate(transactions *[]Transaction, startDate, endDate time.Time) error {
-	allTransactions := []Transaction{}
-	if err := DataList(&allTransactions); err != nil {
-		return err
-	}
-	for _, t := range allTransactions {
-		if (startDate.Equal(t.TxnDate) || startDate.Before(t.TxnDate)) && endDate.After(t.TxnDate) {
-			*transactions = append(*transactions, t)
-		}
-	}
-	return nil
+func (t *TransactionManager) TransactionByDate(transactions *[]Transaction, startDate, endDate time.Time) error {
+	return t.transactionDataAdapter.TransactionByDate(transactions, startDate, endDate)
 }

@@ -6,23 +6,38 @@ import (
 	"github.com/lithammer/fuzzysearch/fuzzy"
 )
 
-func Read(transactionHistory map[string]int) error {
-	return DataRead(transactionHistory)
+type (
+	TransactionHistoryDataAdapter interface {
+		Read(map[string]int) error
+		Create(string, int) error
+	}
+
+	TransactionHistoryManager struct {
+		transactionHistoryDataAdapter TransactionHistoryDataAdapter
+	}
+)
+
+func NewTransactionHistoryManager(ta TransactionHistoryDataAdapter) *TransactionHistoryManager {
+	return &TransactionHistoryManager{transactionHistoryDataAdapter: ta}
 }
 
-func Create(text string, categoryId int) error {
+func (t *TransactionHistoryManager) Read(transactionHistory map[string]int) error {
+	return t.transactionHistoryDataAdapter.Read(transactionHistory)
+}
+
+func (t *TransactionHistoryManager) Create(text string, categoryId int) error {
 	text = strings.TrimSpace(text)
 	minLen := 20
 	if len(text) < 20 {
 		minLen = len(text)
 	}
 	text = string(text[:minLen])
-	return DataCreate(text, categoryId)
+	return t.transactionHistoryDataAdapter.Create(text, categoryId)
 }
 
-func FindCategory(categoryStr string) (categoryId int) {
+func (t *TransactionHistoryManager) FindCategory(categoryStr string) (categoryId int) {
 	transactionHistory := make(map[string]int)
-	Read(transactionHistory)
+	t.Read(transactionHistory)
 
 	categoryId = 0 // set to unknown
 	compareLen := 20

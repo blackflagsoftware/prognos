@@ -6,7 +6,11 @@ import (
 	"github.com/blackflagsoftware/prognos/internal/util"
 )
 
-func DataRead(col *AccountColumn) error {
+type (
+	AccountColumnFileData struct{}
+)
+
+func (a *AccountColumnFileData) Read(col *AccountColumn) error {
 	accs := []AccountColumn{}
 	if err := util.OpenFile(ACCOUNTCOLUMN, &accs); err != nil {
 		return err
@@ -26,7 +30,7 @@ func DataRead(col *AccountColumn) error {
 	return nil
 }
 
-func DataList(col *[]AccountColumn, accountId int) error {
+func (a *AccountColumnFileData) List(col *[]AccountColumn, accountId int) error {
 	colAll := &[]AccountColumn{}
 	if err := util.OpenFile(ACCOUNTCOLUMN, colAll); err != nil {
 		return err
@@ -42,7 +46,7 @@ func DataList(col *[]AccountColumn, accountId int) error {
 	return nil
 }
 
-func DataCreate(col AccountColumn) error {
+func (a *AccountColumnFileData) Create(col AccountColumn) error {
 	accs := []AccountColumn{}
 	if err := util.OpenFile(ACCOUNTCOLUMN, &accs); err != nil {
 		return err
@@ -58,7 +62,7 @@ func DataCreate(col AccountColumn) error {
 	return util.SaveFile(ACCOUNTCOLUMN, accs)
 }
 
-func DataUpdate(col AccountColumn) error {
+func (a *AccountColumnFileData) Update(col AccountColumn) error {
 	accs := []AccountColumn{}
 	if err := util.OpenFile(ACCOUNTCOLUMN, &accs); err != nil {
 		return err
@@ -72,7 +76,7 @@ func DataUpdate(col AccountColumn) error {
 	return util.SaveFile(ACCOUNTCOLUMN, accs)
 }
 
-func DataDelete(col AccountColumn) error {
+func (a *AccountColumnFileData) Delete(col AccountColumn) error {
 	accs := []AccountColumn{}
 	if err := util.OpenFile(ACCOUNTCOLUMN, &accs); err != nil {
 		return err
@@ -86,9 +90,9 @@ func DataDelete(col AccountColumn) error {
 	return util.SaveFile(ACCOUNTCOLUMN, accs)
 }
 
-func DataColumnIdxByName(accountId int, columnName string) int {
+func (a *AccountColumnFileData) ColumnIdxByName(accountId int, columnName string) int {
 	cols := []AccountColumn{}
-	if err := DataList(&cols, accountId); err != nil {
+	if err := a.List(&cols, accountId); err != nil {
 		return -1
 	}
 	for _, c := range cols {

@@ -3,14 +3,23 @@ package transactionhistory
 import (
 	"fmt"
 
+	stor "github.com/blackflagsoftware/prognos/internal/storage"
 	"github.com/blackflagsoftware/prognos/internal/util"
+	"github.com/jmoiron/sqlx"
 )
 
 type (
-	TransactionHistoryFileData struct{}
+	TransactionHistorySqlData struct {
+		DB *sqlx.DB
+	}
 )
 
-func (t *TransactionHistoryFileData) Read(transactionHistory map[string]int) error {
+func InitSQL() *TransactionHistorySqlData {
+	db := stor.PostgresInit()
+	return &TransactionHistorySqlData{DB: db}
+}
+
+func (t *TransactionHistorySqlData) Read(transactionHistory map[string]int) error {
 	if err := util.OpenFile("transactionhistory", &transactionHistory); err != nil {
 		fmt.Println("Error transactionhistory:", err)
 		return err
@@ -18,7 +27,7 @@ func (t *TransactionHistoryFileData) Read(transactionHistory map[string]int) err
 	return nil
 }
 
-func (t *TransactionHistoryFileData) Create(text string, categoryId int) error {
+func (t *TransactionHistorySqlData) Create(text string, categoryId int) error {
 	transactionHistory := make(map[string]int)
 	if err := t.Read(transactionHistory); err != nil {
 		return err

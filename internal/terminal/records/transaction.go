@@ -10,6 +10,15 @@ import (
 	"github.com/blackflagsoftware/prognos/internal/util"
 )
 
+var (
+	transactionManager *tra.TransactionManager
+)
+
+func init() {
+	ts := tra.InitStorage()
+	transactionManager = tra.NewTransactionManager(ts)
+}
+
 func TransactionMenu() {
 	for {
 		util.ClearScreen()
@@ -61,7 +70,7 @@ func createTransaction() {
 		transaction.Amount = util.ParseInputFloatWithMessage("Amount*: ")
 		fmt.Print("Description: ")
 		transaction.Description = util.ParseInput()
-		err := tra.Create(transaction)
+		err := transactionManager.Create(transaction)
 		if err != nil {
 			fmt.Printf("Transaction was not added: %s\n", err)
 			fmt.Print("Press 'enter' to continue")
@@ -133,7 +142,7 @@ func updateTransaction() {
 		if description != "" {
 			newTransaction.Description = description
 		}
-		err := tra.Update(newTransaction)
+		err := transactionManager.Update(newTransaction)
 		if err != nil {
 			fmt.Printf("Transaction was not updated: %s\n", err)
 			fmt.Print("Press 'enter' to continue")
@@ -151,7 +160,7 @@ func deleteTransaction() {
 	for {
 		util.ClearScreen()
 		transaction.Id = util.ParseInputIntWithMessage("Enter Transaction Id to delete: ")
-		err := tra.Delete(transaction)
+		err := transactionManager.Delete(transaction)
 		if err != nil {
 			fmt.Printf("Transaction was not deleted: %s\n", err)
 			fmt.Print("Press 'enter' to continue")
@@ -166,7 +175,7 @@ func deleteTransaction() {
 
 func listTransaction() {
 	transactions := &[]tra.Transaction{}
-	tra.List(transactions)
+	transactionManager.List(transactions)
 	fmt.Println("Transactions - List")
 	writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
 	fmt.Fprintln(writer, "Id\tAccount\tCategory\tTxn Date\tAmount\tDescription")
@@ -182,14 +191,14 @@ func listTransaction() {
 
 func deleteAll() {
 	if util.AskYesOrNo("Delete All?") {
-		tra.DeleteAll()
+		transactionManager.DeleteAll()
 	}
 }
 
 func getTransaction(transaction *tra.Transaction) {
 	for {
 		transaction.Id = util.ParseInputIntWithMessage("Enter Transaction Id: ")
-		err := tra.Read(transaction)
+		err := transactionManager.Read(transaction)
 		if err != nil {
 			fmt.Printf("Transaction was not added: %s\n", err)
 			fmt.Print("Press 'enter' to continue")

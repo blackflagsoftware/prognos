@@ -39,7 +39,9 @@ func LastMonth() {
 	startDate, endDate := util.GetLastMonth(time.Now()) // TODO: maybe take an extra param to be inclusive or not
 	endDate = endDate.AddDate(0, 0, 1)                  // make it exclusive, get the whole month
 	transactions := []tra.Transaction{}
-	if err := tra.TransactionByDate(&transactions, startDate, endDate); err != nil {
+	ts := tra.InitStorage()
+	tm := tra.NewTransactionManager(ts)
+	if err := tm.TransactionByDate(&transactions, startDate, endDate); err != nil {
 		fmt.Println("Unable to get transactions by date", err)
 		return
 	}
@@ -62,7 +64,9 @@ func MonthYear() {
 	}
 	endDate = startDate.AddDate(0, 1, 0)
 	transactions := []tra.Transaction{}
-	if err := tra.TransactionByDate(&transactions, startDate, endDate); err != nil {
+	ts := tra.InitStorage()
+	tm := tra.NewTransactionManager(ts)
+	if err := tm.TransactionByDate(&transactions, startDate, endDate); err != nil {
 		fmt.Println("Unable to get transactions by date", err)
 		return
 	}
@@ -93,7 +97,9 @@ func CustomMonth() {
 		break
 	}
 	transactions := []tra.Transaction{}
-	if err := tra.TransactionByDate(&transactions, startDate, endDate); err != nil {
+	ts := tra.InitStorage()
+	tm := tra.NewTransactionManager(ts)
+	if err := tm.TransactionByDate(&transactions, startDate, endDate); err != nil {
 		fmt.Println("Unable to get transactions by date", err)
 		return
 	}
@@ -104,7 +110,9 @@ func BudgetAllocation() {
 	// show all the categories and link the amounts saved
 	// have them enter in a number to alter the amount for the selected
 	categories := []cat.Category{}
-	if err := cat.List(&categories); err != nil {
+	cs := cat.InitStorage()
+	cm := cat.NewCategoryManager(cs)
+	if err := cm.List(&categories); err != nil {
 		fmt.Println("BudgetAllocation: unable to get categories:", err)
 		fmt.Println("Press 'enter' to continue")
 		util.ParseInput()
@@ -112,7 +120,9 @@ func BudgetAllocation() {
 	}
 
 	budgetAllocation := []bud.BudgetAllocation{}
-	if err := bud.List(&budgetAllocation); err != nil {
+	bs := bud.InitStorage()
+	bm := bud.NewBudgetAllocationManager(bs)
+	if err := bm.List(&budgetAllocation); err != nil {
 		fmt.Println("BudgetAllocation: unable to get budget allocation:", err)
 		fmt.Println("Press 'enter' to continue")
 		util.ParseInput()
@@ -140,12 +150,12 @@ func BudgetAllocation() {
 			break
 		}
 		amount := util.ParseInputFloatWithMessage(fmt.Sprintf("New budget allocation amount for [%s]: ", categories[selection-1].CategoryName))
-		if err := bud.Upsert(selection, amount); err != nil {
+		if err := bm.Upsert(selection, amount); err != nil {
 			fmt.Println("Unable to insert/update budget allocation, please try again")
 			break
 		}
 		// get the list again
-		if err := bud.List(&budgetAllocation); err != nil {
+		if err := bm.List(&budgetAllocation); err != nil {
 			fmt.Println("printBudget: unable to get budget allocation:", err)
 			return
 		}
@@ -162,14 +172,18 @@ func printBudget(startDate, endDate time.Time, transactions []tra.Transaction) {
 	}
 	// get categories and put into map, for easy lookup
 	categories := []cat.Category{}
-	if err := cat.List(&categories); err != nil {
+	cs := cat.InitStorage()
+	cm := cat.NewCategoryManager(cs)
+	if err := cm.List(&categories); err != nil {
 		fmt.Println("printBudget: unable to get categories:", err)
 		fmt.Println("Press 'enter' to continue")
 		util.ParseInput()
 		return
 	}
 	budgetAllocation := []bud.BudgetAllocation{}
-	if err := bud.List(&budgetAllocation); err != nil {
+	bs := bud.InitStorage()
+	bm := bud.NewBudgetAllocationManager(bs)
+	if err := bm.List(&budgetAllocation); err != nil {
 		fmt.Println("printBudget: unable to get budget allocation:", err)
 		fmt.Println("Press 'enter' to continue")
 		util.ParseInput()

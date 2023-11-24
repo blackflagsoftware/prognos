@@ -61,7 +61,9 @@ func TransactionsLoad() {
 				util.ParseInput()
 				continue
 			}
-			if err := at.LoadTransactionFile(account, loadFile); err != nil {
+			ats := at.InitStorage()
+			atm := at.NewAccountTransactionManager(ats)
+			if err := atm.LoadTransactionFile(account, loadFile); err != nil {
 				fmt.Println(err)
 			}
 			fmt.Println("File loaded, press 'enter' to continue")
@@ -72,6 +74,14 @@ func TransactionsLoad() {
 }
 
 func TransactionsUncategorized() {
+	ats := at.InitStorage()
+	atm := at.NewAccountTransactionManager(ats)
+	cs := cat.InitStorage()
+	cm := cat.NewCategoryManager(cs)
+	ts := tra.InitStorage()
+	tm := tra.NewTransactionManager(ts)
+	ths := th.InitStorage()
+	thm := th.NewTransactionHistoryManager(ths)
 	for {
 		util.ClearScreen()
 		rec.PrintAccounts()
@@ -81,12 +91,12 @@ func TransactionsUncategorized() {
 		}
 		// load categories
 		categories := []cat.Category{}
-		if err := cat.List(&categories); err != nil {
+		if err := cm.List(&categories); err != nil {
 			fmt.Println("TransactionsUncategorized: failed to load categories, error:", err)
 			break
 		}
 		// load transactions
-		transactions := at.LoadUncategorizedTransactions(accountId)
+		transactions := atm.LoadUncategorizedTransactions(accountId)
 		writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
 	newTransaction:
 		for i, t := range transactions {
@@ -111,7 +121,7 @@ func TransactionsUncategorized() {
 							break
 						}
 						c := cat.Category{CategoryName: newCategory}
-						if err := cat.CheckAndCreate(&c); err != nil {
+						if err := cm.CheckAndCreate(&c); err != nil {
 							fmt.Println(err)
 							yesNo := util.AskYesOrNo("Try again (y/n): ")
 							if yesNo {
@@ -122,10 +132,10 @@ func TransactionsUncategorized() {
 						categories = append(categories, c)
 						// TODO: refactor this; for video
 						transactions[i].CategoryId = c.Id
-						if err := tra.Update(transactions[i]); err != nil {
+						if err := tm.Update(transactions[i]); err != nil {
 							fmt.Println("TransactionsUncategorized: updating transaction:", err)
 						}
-						if err := th.Create(transactions[i].Description, c.Id); err != nil {
+						if err := thm.Create(transactions[i].Description, c.Id); err != nil {
 							fmt.Println("TransactionsUncategorized: creating transaction history:", err)
 						}
 						break
@@ -139,10 +149,10 @@ func TransactionsUncategorized() {
 					continue
 				}
 				transactions[i].CategoryId = selectionInt
-				if err := tra.Update(transactions[i]); err != nil {
+				if err := tm.Update(transactions[i]); err != nil {
 					fmt.Println("TransactionsUncategorized: updating transaction:", err)
 				}
-				if err := th.Create(transactions[i].Description, selectionInt); err != nil {
+				if err := thm.Create(transactions[i].Description, selectionInt); err != nil {
 					fmt.Println("TransactionsUncategorized: creating transaction history:", err)
 				}
 				break

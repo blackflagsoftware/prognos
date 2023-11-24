@@ -10,6 +10,14 @@ import (
 	"github.com/blackflagsoftware/prognos/internal/util"
 )
 
+var (
+	categoryManager cat.CategoryManager
+)
+
+func init() {
+	cs := cat.InitStorage()
+	categoryManager = cat.NewCategoryManager(cs)
+}
 func CategoryMenu() {
 	for {
 		util.ClearScreen()
@@ -45,7 +53,7 @@ func createCategory() {
 		fmt.Println("* - Required")
 		fmt.Println("")
 		category.CategoryName = util.ParseInputWithMessage("Category Name*: ")
-		err := cat.Create(category)
+		err := categoryManager.Create(category)
 		if err != nil {
 			fmt.Printf("Category was not added: %s\n", err)
 			fmt.Print("Press 'enter' to continue")
@@ -95,7 +103,7 @@ func updateCategory() {
 		getCategory(origCategory)
 		newCategory.Id = origCategory.Id
 		newCategory.CategoryName = util.ParseInputStringWithMessageCompare(fmt.Sprintf("Category Name [%s]*: ", origCategory.CategoryName), origCategory.CategoryName)
-		err := cat.Update(newCategory)
+		err := categoryManager.Update(newCategory)
 		if err != nil {
 			fmt.Printf("Category was not updated: %s\n", err)
 			fmt.Print("Press 'enter' to continue")
@@ -113,7 +121,7 @@ func deleteCategory() {
 	for {
 		util.ClearScreen()
 		category.Id = util.ParseInputIntWithMessage("Enter Category Id to delete: ")
-		err := cat.Delete(category)
+		err := categoryManager.Delete(category)
 		if err != nil {
 			fmt.Printf("Category was not deleted: %s\n", err)
 			fmt.Print("Press 'enter' to continue")
@@ -128,7 +136,7 @@ func deleteCategory() {
 
 func listCategory() {
 	categorys := &[]cat.Category{}
-	cat.List(categorys)
+	categoryManager.List(categorys)
 	fmt.Println("Categorys - List")
 	fmt.Println("")
 	writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
@@ -161,7 +169,7 @@ func PrintCategories(categories []cat.Category) {
 func getCategory(category *cat.Category) {
 	for {
 		category.Id = util.ParseInputIntWithMessage("Enter Category Id: ")
-		err := cat.Read(category)
+		err := categoryManager.Read(category)
 		if err != nil {
 			fmt.Printf("Category was not added: %s\n", err)
 			fmt.Print("Press 'enter' to continue")

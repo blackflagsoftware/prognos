@@ -4,7 +4,11 @@ import (
 	"github.com/blackflagsoftware/prognos/internal/util"
 )
 
-func DataRead(cat *Category) error {
+type (
+	CategoryFileData struct{}
+)
+
+func (c *CategoryFileData) Read(cat *Category) error {
 	cats := []Category{}
 	if err := util.OpenFile(CATEGORY, &cats); err != nil {
 		return err
@@ -22,11 +26,11 @@ func DataRead(cat *Category) error {
 	return nil
 }
 
-func DataList(cat *[]Category) error {
+func (c *CategoryFileData) List(cat *[]Category) error {
 	return util.OpenFile(CATEGORY, cat)
 }
 
-func DataCreate(cat Category) error {
+func (c *CategoryFileData) Create(cat Category) error {
 	cats := []Category{}
 	if err := util.OpenFile(CATEGORY, &cats); err != nil {
 		return err
@@ -42,7 +46,7 @@ func DataCreate(cat Category) error {
 	return util.SaveFile(CATEGORY, cats)
 }
 
-func DataUpdate(cat Category) error {
+func (c *CategoryFileData) Update(cat Category) error {
 	cats := []Category{}
 	if err := util.OpenFile(CATEGORY, &cats); err != nil {
 		return err
@@ -56,7 +60,7 @@ func DataUpdate(cat Category) error {
 	return util.SaveFile(CATEGORY, cats)
 }
 
-func DataDelete(cat Category) error {
+func (c *CategoryFileData) Delete(cat Category) error {
 	cats := []Category{}
 	if err := util.OpenFile(CATEGORY, &cats); err != nil {
 		return err

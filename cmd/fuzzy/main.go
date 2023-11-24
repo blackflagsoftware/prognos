@@ -17,7 +17,9 @@ func main() {
 
 func search(categoryStr string) {
 	transactionHistory := make(map[string]int)
-	th.Read(transactionHistory)
+	ths := th.InitStorage()
+	thm := th.NewTransactionHistoryManager(ths)
+	thm.Read(transactionHistory)
 
 	categoryId := 0 // set to unknown
 	matchSplit := strings.Split(categoryStr, " ")

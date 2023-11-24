@@ -4,7 +4,11 @@ import (
 	"github.com/blackflagsoftware/prognos/internal/util"
 )
 
-func DataExists(accountId int, fileName string) bool {
+type (
+	AccountTransactionFileData struct{}
+)
+
+func (a *AccountTransactionFileData) Exists(accountId int, fileName string) bool {
 	acc := &[]AccountTransaction{}
 	util.OpenFile(ACCOUNTTRANSACTION, acc)
 	for _, a := range *acc {
@@ -15,7 +19,7 @@ func DataExists(accountId int, fileName string) bool {
 	return false
 }
 
-func DataCreate(acc AccountTransaction) error {
+func (a *AccountTransactionFileData) Create(acc AccountTransaction) error {
 	accs := []AccountTransaction{}
 	if err := util.OpenFile(ACCOUNTTRANSACTION, &accs); err != nil {
 		return err

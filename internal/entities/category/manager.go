@@ -2,44 +2,62 @@ package category
 
 import "fmt"
 
-func Read(cat *Category) error {
+type (
+	CategoryDataAdapter interface {
+		Read(*Category) error
+		List(*[]Category) error
+		Create(Category) error
+		Update(Category) error
+		Delete(Category) error
+	}
+
+	CategoryManager struct {
+		categoryDataAdapter CategoryDataAdapter
+	}
+)
+
+func NewCategoryManager(ca CategoryDataAdapter) CategoryManager {
+	return CategoryManager{categoryDataAdapter: ca}
+}
+
+func (c *CategoryManager) Read(cat *Category) error {
 	if cat.Id < 1 {
 		return fmt.Errorf("Invalid Id")
 	}
-	return DataRead(cat)
+	return c.categoryDataAdapter.Read(cat)
 }
 
-func List(cat *[]Category) error {
-	return DataList(cat)
+func (c *CategoryManager) List(cat *[]Category) error {
+	return c.categoryDataAdapter.List(cat)
 }
 
-func Create(cat Category) error {
+func (c *CategoryManager) Create(cat Category) error {
 	if cat.CategoryName == "" {
 		return fmt.Errorf("Invalid CategoryName")
 	}
-	return DataCreate(cat)
+	return c.categoryDataAdapter.Create(cat)
 }
 
-func Update(cat Category) error {
+func (c *CategoryManager) Update(cat Category) error {
 	if cat.CategoryName == "" {
 		return fmt.Errorf("Invalid CategoryName")
 	}
-	return DataUpdate(cat)
+	return c.categoryDataAdapter.Update(cat)
 }
 
-func Delete(cat Category) error {
+func (c *CategoryManager) Delete(cat Category) error {
 	if cat.Id < 1 {
 		return fmt.Errorf("Invalid Id")
 	}
-	return DataDelete(cat)
+	return c.categoryDataAdapter.Delete(cat)
 }
 
 // this checks the list of categories for possible duplicate
 // if not found, create a new record
 // but will have to run through list again to get new id for incoming 'cat'
-func CheckAndCreate(cat *Category) error {
+func (c *CategoryManager) CheckAndCreate(cat *Category) error {
 	cats := []Category{}
-	if err := List(&cats); err != nil {
+	if err := c.List(&cats); err != nil {
 		return fmt.Errorf("Unable to add new category: %s", err)
 	}
 	for _, c := range cats {
@@ -48,11 +66,11 @@ func CheckAndCreate(cat *Category) error {
 			return nil
 		}
 	}
-	if err := Create(*cat); err != nil {
+	if err := c.Create(*cat); err != nil {
 		return fmt.Errorf("Unable to add new category: %s", err)
 	}
-	// TODO: not efficient, refactor for video
-	if err := List(&cats); err != nil {
+	// TODO: not efficient, refactor for video, do it here and above
+	if err := c.List(&cats); err != nil {
 		return fmt.Errorf("Unable to add new category: %s", err)
 	}
 	for _, c := range cats {

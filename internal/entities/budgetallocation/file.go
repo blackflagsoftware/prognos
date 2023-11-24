@@ -4,19 +4,24 @@ import (
 	"github.com/blackflagsoftware/prognos/internal/util"
 )
 
-func DataList(budgetAllocation *[]BudgetAllocation) error {
+type (
+	BudgetAllocationFileData struct{}
+)
+
+func (b *BudgetAllocationFileData) List(budgetAllocation *[]BudgetAllocation) error {
 	return util.OpenFile(BUDGETALLOCATION, budgetAllocation)
 }
 
-func DataUpsert(categoryId int, amount float64) error {
+func (b *BudgetAllocationFileData) Upsert(categoryId int, amount float64) error {
 	budgetAllocations := []BudgetAllocation{}
 	if err := util.OpenFile(BUDGETALLOCATION, &budgetAllocations); err != nil {
 		return err
 	}
 	update := false
 	for i := range budgetAllocations {
-		if budgetAllocations[i].CategoryId > categoryId {
+		if budgetAllocations[i].CategoryId == categoryId {
 			budgetAllocations[i].Amount = amount
+			update = true
 			break
 		}
 	}

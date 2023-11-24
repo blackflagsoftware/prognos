@@ -11,6 +11,15 @@ import (
 	"github.com/blackflagsoftware/prognos/internal/util"
 )
 
+var (
+	accountColumnManager ac.AccountColumnManager
+)
+
+func init() {
+	as := ac.InitStorage()
+	accountColumnManager = ac.NewAccountColumnManager(as)
+}
+
 func AccountColumnMenu() {
 	for {
 		util.ClearScreen()
@@ -49,7 +58,7 @@ func createAccountColumn() {
 		accountcolumn.AccountId = util.ParseInputIntWithMessage("AccountId*: ")
 		accountcolumn.ColumnName = util.ParseInputWithMessage("ColumnName [TxnDate | Amount | Description | Category]*: ")
 		accountcolumn.Position = util.ParseInputIntWithMessage("Position*: ")
-		err := ac.Create(accountcolumn)
+		err := accountColumnManager.Create(accountcolumn)
 		if err != nil {
 			fmt.Printf("AccountColumn was not added: %s\n", err)
 			fmt.Print("Press 'enter' to continue")
@@ -102,7 +111,7 @@ func updateAccountColumn() {
 		newAccountColumn.AccountId = util.ParseInputIntWithMessageCompare(fmt.Sprintf("AccountId [%d]*: ", origAccountColumn.AccountId), origAccountColumn.AccountId)
 		newAccountColumn.ColumnName = util.ParseInputStringWithMessageCompare(fmt.Sprintf("ColumnName [%s] [TxnDate | Amount | Description | Category]*: ", origAccountColumn.ColumnName), origAccountColumn.ColumnName)
 		newAccountColumn.Position = util.ParseInputIntWithMessageCompare(fmt.Sprintf("Position [%d]*: ", origAccountColumn.Position), origAccountColumn.Position)
-		err := ac.Update(newAccountColumn)
+		err := accountColumnManager.Update(newAccountColumn)
 		if err != nil {
 			fmt.Printf("AccountColumn was not updated: %s\n", err)
 			fmt.Print("Press 'enter' to continue")
@@ -120,7 +129,7 @@ func deleteAccountColumn() {
 	for {
 		util.ClearScreen()
 		accountcolumn.Id = util.ParseInputIntWithMessage("Enter AccountColumn Id to delete: ")
-		err := ac.Delete(accountcolumn)
+		err := accountColumnManager.Delete(accountcolumn)
 		if err != nil {
 			fmt.Printf("AccountColumn was not deleted: %s\n", err)
 			fmt.Print("Press 'enter' to continue")
@@ -138,7 +147,7 @@ func listAccountColumn() {
 	accountId := util.ParseInputIntWithMessage("Filter by Account: ")
 	fmt.Println("")
 	accountcolumns := &[]ac.AccountColumn{}
-	ac.List(accountcolumns, accountId)
+	accountColumnManager.List(accountcolumns, accountId)
 	fmt.Println("AccountColumns - List")
 	fmt.Println("")
 	writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
@@ -156,7 +165,7 @@ func listAccountColumn() {
 func getAccountColumn(accountcolumn *ac.AccountColumn) {
 	for {
 		accountcolumn.Id = util.ParseInputIntWithMessage("Enter AccountColumn Id: ")
-		err := ac.Read(accountcolumn)
+		err := accountColumnManager.Read(accountcolumn)
 		if err != nil {
 			fmt.Printf("AccountColumn was not added: %s\n", err)
 			fmt.Print("Press 'enter' to continue")

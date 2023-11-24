@@ -2,18 +2,37 @@ package accountcolumn
 
 import "fmt"
 
-func Read(acc *AccountColumn) error {
+type (
+	AccountColumnDataAdapter interface {
+		Read(*AccountColumn) error
+		List(*[]AccountColumn, int) error
+		Create(AccountColumn) error
+		Update(AccountColumn) error
+		Delete(AccountColumn) error
+		ColumnIdxByName(int, string) int
+	}
+
+	AccountColumnManager struct {
+		accountColumnDataAdapter AccountColumnDataAdapter
+	}
+)
+
+func NewAccountColumnManager(acm AccountColumnDataAdapter) AccountColumnManager {
+	return AccountColumnManager{accountColumnDataAdapter: acm}
+}
+
+func (a *AccountColumnManager) Read(acc *AccountColumn) error {
 	if acc.Id < 1 {
 		return fmt.Errorf("Invalid Id")
 	}
-	return DataRead(acc)
+	return a.accountColumnDataAdapter.Read(acc)
 }
 
-func List(acc *[]AccountColumn, accountId int) error {
-	return DataList(acc, accountId)
+func (a *AccountColumnManager) List(acc *[]AccountColumn, accountId int) error {
+	return a.accountColumnDataAdapter.List(acc, accountId)
 }
 
-func Create(acc AccountColumn) error {
+func (a *AccountColumnManager) Create(acc AccountColumn) error {
 	if acc.AccountId < 1 {
 		return fmt.Errorf("Invalid AccountId")
 	}
@@ -32,10 +51,10 @@ func Create(acc AccountColumn) error {
 	if acc.Position < 1 {
 		return fmt.Errorf("Invalid PositionId")
 	}
-	return DataCreate(acc)
+	return a.accountColumnDataAdapter.Create(acc)
 }
 
-func Update(acc AccountColumn) error {
+func (a *AccountColumnManager) Update(acc AccountColumn) error {
 	if acc.AccountId < 1 {
 		return fmt.Errorf("Invalid AccountId")
 	}
@@ -54,16 +73,16 @@ func Update(acc AccountColumn) error {
 	if acc.Position < 1 {
 		return fmt.Errorf("Invalid PositionId")
 	}
-	return DataUpdate(acc)
+	return a.accountColumnDataAdapter.Update(acc)
 }
 
-func Delete(acc AccountColumn) error {
+func (a *AccountColumnManager) Delete(acc AccountColumn) error {
 	if acc.Id < 1 {
 		return fmt.Errorf("Invalid Id")
 	}
-	return DataDelete(acc)
+	return a.accountColumnDataAdapter.Delete(acc)
 }
 
-func ColumnIdxByName(accountId int, columnName string) int {
-	return DataColumnIdxByName(accountId, columnName)
+func (a *AccountColumnManager) ColumnIdxByName(accountId int, columnName string) int {
+	return a.accountColumnDataAdapter.ColumnIdxByName(accountId, columnName)
 }
